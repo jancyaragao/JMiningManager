@@ -17,12 +17,14 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 // Exemplo ainda em versão parcial e não finalizada
-public class ExPorClasse {
+public class ExListaArquivosPorCommit {
 
 	public static void main(String[] args) throws IOException, NoWorkTreeException, GitAPIException {
 		Git git = Git.open(new File("C:/Development/projects/wicket"));
 		Repository repositorio = git.getRepository();
 
+		// 8b6fcd869ceb96f7b4ea003d3d5665a1626390ad > Adição de arquivo
+		// 266c90037d689f47bf45722532536716dc9f5b06 > Remoção de arquivo
 		ObjectId objectId = repositorio.resolve("266c90037d689f47bf45722532536716dc9f5b06");
 
 		RevWalk rw = new RevWalk(repositorio);
