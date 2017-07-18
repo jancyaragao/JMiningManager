@@ -1,28 +1,26 @@
 package svn.testes;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNLogEntry;
 import org.tmatesoft.svn.core.SVNLogEntryPath;
-import org.tmatesoft.svn.core.io.SVNRepository;
 
 public class ExPorClasse {
 	
 	public static void main(String[] args) throws SVNException {
 		
-		SVNRepository repositorio = ConnectionUtil.conexao();
+		RepositoryConnection repositorio = new RepositoryConnection("http://argouml.tigris.org/svn/argouml/trunk", "guest", "");
 		
-		Date dataInicial = DataUtil.converterStringParaDate("12/11/2001");
-		Date dataFinal = DataUtil.converterStringParaDate("12/01/2002");
+//		Date dataInicial = DataUtil.converterStringParaDate("12/11/2001");
+//		Date dataFinal = DataUtil.converterStringParaDate("12/01/2002");
+//		
+//		long revisaoInicial = repositorio.getDatedRevision(dataInicial);
+//		long revisaoFinal = repositorio.getDatedRevision(dataFinal);
 		
-		long revisaoInicial = repositorio.getDatedRevision(dataInicial);
-		long revisaoFinal = repositorio.getDatedRevision(dataFinal);
-		
-		Collection<?> revisao = repositorio.log(new String[] { "" }, null, revisaoInicial, revisaoFinal, true, true);
+		Collection<?> revisao = repositorio.buscarPorData("12/11/2001", "12/01/2002");
 		Map<String, Integer> contador = new HashMap<String, Integer>();
 		
 		for (Object objeto : revisao) {
@@ -64,8 +62,6 @@ public class ExPorClasse {
 		System.out.println("---------------------------------------------------------------------------------------");
 		System.out.println("Classe mais alterada: \n\t" + classeMaisAlterada + "\nQuantidade de modificações: " + maiorValor);
 		System.out.println("---------------------------------------------------------------------------------------");
-		
-		repositorio.closeSession();
 		
 	}
 	

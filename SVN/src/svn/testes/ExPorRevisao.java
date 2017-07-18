@@ -4,29 +4,23 @@ import java.util.Collection;
 
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNLogEntry;
-import org.tmatesoft.svn.core.io.SVNRepository;
 
 public class ExPorRevisao {
 
 	public static void main(String[] args) throws SVNException {
 		
-		SVNRepository repositorio = ConnectionUtil.conexao();
+		RepositoryConnection repositorio = new RepositoryConnection("http://argouml.tigris.org/svn/argouml/trunk", "guest", "");
 		
-		long revisaoInicial = 1000;
-		long revisaoFinal = 1050;
-		
-		Collection<?> revisoes = repositorio.log(new String[] { "" }, null, revisaoInicial, revisaoFinal, true, true);
+		Collection<?> revisoes = repositorio.buscarPorRevisao(1000, 1050);
 		
 		for (Object elem : revisoes) {
 			SVNLogEntry rev = (SVNLogEntry) elem;
 			
-			System.out.println("---------------------------------------------");
-			System.out.println("Número: " + rev.getRevision());
+			System.out.println("Revisão: " + rev.getRevision());
 			System.out.println("Autor: " + rev.getAuthor());
 			System.out.println("Data: " + rev.getDate());
+			System.out.println("------------------------------------");
 		}
-		
-		repositorio.closeSession();
 		
 	}
 	
