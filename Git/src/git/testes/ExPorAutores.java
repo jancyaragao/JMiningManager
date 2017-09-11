@@ -28,6 +28,7 @@ public class ExPorAutores {
 			} else {
 				contagem.put(autor, i + 1);
 			}
+			
 		}
 		
 		Integer numero_modificacoes = 0;

@@ -42,7 +42,7 @@ public class RepositoryConnection {
 		return revisoes;
 	}
 
-	Iterable<RevCommit> buscarPorRevisao(String r1, String r2) throws RevisionSyntaxException, AmbiguousObjectException,
+	public Iterable<RevCommit> buscarPorRevisao(String r1, String r2) throws RevisionSyntaxException, AmbiguousObjectException,
 			IncorrectObjectTypeException, IOException, NoHeadException, GitAPIException {
 		ObjectId ref_inicial = repositorio.resolve(r1);
 		ObjectId ref_final = repositorio.resolve(r2);
