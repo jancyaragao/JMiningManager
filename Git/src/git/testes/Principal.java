@@ -31,6 +31,7 @@ public class Principal {
 					+ "\n\t7 - Encerrar aplicação"
 					+ "\n\nOpção desejada: ");
 			opcao = input.nextInt();
+			input.nextLine();
 			
 			if(opcao == 1) {
 				

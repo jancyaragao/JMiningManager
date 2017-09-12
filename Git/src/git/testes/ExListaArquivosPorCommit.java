@@ -21,7 +21,7 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 public class ExListaArquivosPorCommit {
 
 	public static void main(String[] args) throws IOException, NoWorkTreeException, GitAPIException {
-		Git git = Git.open(new File("C:/Users/jancy/git/wicket"));
+		Git git = Git.open(new File("C:/Users/Felipe/git/wicket"));
 		Repository repositorio = git.getRepository();
 
 		// 8b6fcd869ceb96f7b4ea003d3d5665a1626390ad > Adição de arquivo
@@ -61,6 +61,9 @@ public class ExListaArquivosPorCommit {
 				adicionados.add(diff.getNewPath());
 			} else if (diff.getChangeType().name().equals("DELETE") && !removidos.contains(diff.getOldPath())) {
 				removidos.add(diff.getOldPath());
+			}
+			else {
+				System.out.println("#############################################");
 			}
 			
 		}
