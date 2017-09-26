@@ -24,10 +24,10 @@ public class ExListaArquivosPorData {
 		Iterable<RevCommit> revisoes = c.buscarPorData("01/03/2017", "20/03/2017");
 		
 		DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
-		df.setRepository(c);
+		df.setRepository(c.getRepository());
 		df.setDiffComparator(RawTextComparator.DEFAULT);
 		df.setDetectRenames(true);
-
+		
 		List<DiffEntry> diffs = df.scan(parent.getTree(), commit.getTree());
 		ArrayList<String> modificados = new ArrayList<>();
 		ArrayList<String> adicionados = new ArrayList<>();

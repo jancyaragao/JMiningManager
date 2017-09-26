@@ -55,5 +55,9 @@ public class RepositoryConnection {
 	public void close() {
 		git.close();
 	}
+	
+	public Repository getRepository() {
+		return repositorio;
+	}
 
 }
