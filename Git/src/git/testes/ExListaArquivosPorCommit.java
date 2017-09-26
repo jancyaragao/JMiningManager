@@ -21,7 +21,7 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 public class ExListaArquivosPorCommit {
 
 	public static void main(String[] args) throws IOException, NoWorkTreeException, GitAPIException {
-		Git git = Git.open(new File("C:/Users/Felipe/git/wicket"));
+		Git git = Git.open(new File("C:/Users/jancy/git/wicket"));
 		Repository repositorio = git.getRepository();
 
 		// 8b6fcd869ceb96f7b4ea003d3d5665a1626390ad > Adição de arquivo
@@ -48,6 +48,8 @@ public class ExListaArquivosPorCommit {
 		ArrayList<String> modificados = new ArrayList<>();
 		ArrayList<String> adicionados = new ArrayList<>();
 		ArrayList<String> removidos = new ArrayList<>();
+		ArrayList<String> renomeados = new ArrayList<>();
+		ArrayList<String> copiados = new ArrayList<>();
 		
 		for (DiffEntry diff : diffs) {
 			System.out.println("Tipo da alteração: " + diff.getChangeType().name());
@@ -61,11 +63,11 @@ public class ExListaArquivosPorCommit {
 				adicionados.add(diff.getNewPath());
 			} else if (diff.getChangeType().name().equals("DELETE") && !removidos.contains(diff.getOldPath())) {
 				removidos.add(diff.getOldPath());
-			}
-			else {
-				System.out.println("#############################################");
-			}
-			
+			} else if (diff.getChangeType().name().equals("RENAME") && !renomeados.contains(diff.getNewPath())) {
+				renomeados.add(diff.getNewPath());
+			} else if (diff.getChangeType().name().equals("COPY") && !copiados.contains(diff.getNewPath())) {
+				copiados.add(diff.getNewPath());
+			} 
 		}
 		
 		if (modificados.size() > 1) {
@@ -84,6 +86,18 @@ public class ExListaArquivosPorCommit {
 			System.out.println(removidos.size() + " arquivos foram removidos: " + removidos);
 		} else {
 			System.out.println(removidos.size() + " arquivo foi removido: " + removidos);
+		}
+		
+		if (renomeados.size() > 1) {
+			System.out.println(renomeados.size() + " arquivos foram renomeados: " + renomeados);
+		} else {
+			System.out.println(renomeados.size() + " arquivo foi renomeado: " + renomeados);
+		}
+		
+		if (removidos.size() > 1) {
+			System.out.println(copiados.size() + " arquivos foram copiados: " + copiados);
+		} else {
+			System.out.println(copiados.size() + " arquivo foi copiado: " + copiados);
 		}
 		
 		System.out.println("\nTotal: " + diffs.size() + " arquivos");

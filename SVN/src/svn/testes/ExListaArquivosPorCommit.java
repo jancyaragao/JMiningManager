@@ -24,6 +24,7 @@ public class ExListaArquivosPorCommit {
 		ArrayList<String> modificados = new ArrayList<>();
 		ArrayList<String> adicionados = new ArrayList<>();
 		ArrayList<String> removidos = new ArrayList<>();
+		ArrayList<String> substituidos = new ArrayList<>();
 		int total = 0;
 		
 		for (Object objeto : revisao) {
@@ -46,6 +47,9 @@ public class ExListaArquivosPorCommit {
 				} else if (aux == 'D' && !removidos.contains(arq.getPath())) {
 					removidos.add(arq.getPath());
 					total++;
+				} else if (aux == 'R' && !substituidos.contains(arq.getPath())) {
+					substituidos.add(arq.getPath());
+					total++; 
 				}
 				
 			}
@@ -68,6 +72,12 @@ public class ExListaArquivosPorCommit {
 			System.out.println(removidos.size() + " arquivos foram removidos: " + removidos);
 		} else {
 			System.out.println(removidos.size() + " arquivo foi removido: " + removidos);
+		}
+		
+		if (substituidos.size() > 1) {
+			System.out.println(substituidos.size() + " arquivos foram removidos: " + substituidos);
+		} else {
+			System.out.println(substituidos.size() + " arquivo foi removido: " + substituidos);
 		}
 		
 		System.out.println("\nTotal: " + total + " arquivos");

@@ -18,11 +18,11 @@ public class ExPorData {
 		for (RevCommit rev : revisoes) {
 			PersonIdent autoria = rev.getAuthorIdent();
 			
-			System.out.println("--------------------------------------------------");
 			System.out.println("Hash: " + rev.getName());
 			System.out.println("Autor: " + autoria.getName());
 			System.out.println("E-mail: " + autoria.getEmailAddress());
 			System.out.println("Data: " + DataUtil.converterDateParaString(autoria.getWhen()));
+			System.out.println("--------------------------------------------------");
 		}
 		
 		c.close();
