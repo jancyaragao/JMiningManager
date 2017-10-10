@@ -17,12 +17,12 @@ import org.eclipse.jgit.revwalk.filter.RevFilter;
 
 import git.testes.DataUtil;
 
-public class Git {
+public class JMMGit {
 
 	private Git git;
 	private Repository repositorio;
 
-	public RepositoryConnection(String path) {
+	public JMMGit(String path) {
 		try {
 			git = Git.open(new File(path));
 			repositorio = git.getRepository();
