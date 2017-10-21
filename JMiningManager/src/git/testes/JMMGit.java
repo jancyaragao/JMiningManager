@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -27,101 +29,136 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 public class JMMGit {
 
 	private Git git;
-	private Repository repositorio;
+	private Repository idRepository;
 
 	public JMMGit(String path) {
 		try {
 			git = Git.open(new File(path));
-			repositorio = git.getRepository();
+			idRepository = git.getRepository();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public Iterable<RevCommit> buscarPorData(String data_inicial, String data_final)
+	public Iterable<RevCommit> searchByDate(String initial_date, String final_date)
 			throws NoHeadException, GitAPIException {
-		Date data1 = DataUtil.converterStringParaDate(data_inicial);
-		Date data2 = DataUtil.converterStringParaDate(data_final);
+		Date date1 = DataUtil.converterStringParaDate(initial_date);
+		Date date2 = DataUtil.converterStringParaDate(final_date);
 
-		RevFilter filtro = CommitTimeRevFilter.between(data1, data2);
+		RevFilter filtro = CommitTimeRevFilter.between(date1, date2);
 
-		Iterable<RevCommit> revisoes = git.log().setRevFilter(filtro).call();
+		Iterable<RevCommit> revisions = git.log().setRevFilter(filtro).call();
 
-		return revisoes;
+		return revisions;
 	}
 
-	public Iterable<RevCommit> buscarPorRevisao(String r1, String r2) throws RevisionSyntaxException,
+	public Iterable<RevCommit> searchByRevision(String r1, String r2) throws RevisionSyntaxException,
 			AmbiguousObjectException, IncorrectObjectTypeException, IOException, NoHeadException, GitAPIException {
-		ObjectId ref_inicial = repositorio.resolve(r1);
-		ObjectId ref_final = repositorio.resolve(r2);
+		ObjectId initial_rev = idRepository.resolve(r1);
+		ObjectId final_rev = idRepository.resolve(r2);
 
-		Iterable<RevCommit> revisoes = git.log().addRange(ref_inicial, ref_final).call();
+		Iterable<RevCommit> revisions = git.log().addRange(initial_rev, final_rev).call();
 
-		return revisoes;
+		return revisions;
 	}
 
-	public List<String> listarArquivos(String id, ChangeType type)
+	public List<String> listFiles(String id, ChangeType type)
 			throws RevisionSyntaxException, AmbiguousObjectException, IncorrectObjectTypeException, IOException {
-		return listarArquivos(id, new ChangeType[] { type });
+		return listFiles(id, new ChangeType[] { type });
 	}
 
-	public List<String> listarArquivos(String id, ChangeType[] types)
+	public List<String> listFiles(String id, ChangeType[] types)
 			throws RevisionSyntaxException, AmbiguousObjectException, IncorrectObjectTypeException, IOException {
-		ObjectId objectId = repositorio.resolve(id);
+		ObjectId objectId = idRepository.resolve(id);
 
-		RevWalk rw = new RevWalk(repositorio);
+		RevWalk rw = new RevWalk(idRepository);
 		RevCommit commit = rw.parseCommit(objectId);
 		RevCommit parent = rw.parseCommit(commit.getParent(0).getId());
 
 		DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
-		df.setRepository(repositorio);
+		df.setRepository(idRepository);
 		df.setDiffComparator(RawTextComparator.DEFAULT);
 		df.setDetectRenames(true);
 
 		List<DiffEntry> diffs = df.scan(parent.getTree(), commit.getTree());
-		ArrayList<String> adicionados = new ArrayList<>();
-		ArrayList<String> removidos = new ArrayList<>();
-		ArrayList<String> modificados = new ArrayList<>();
-		ArrayList<String> renomeados = new ArrayList<>();
-		ArrayList<String> copiados = new ArrayList<>();
+		ArrayList<String> added = new ArrayList<>();
+		ArrayList<String> removed = new ArrayList<>();
+		ArrayList<String> modified = new ArrayList<>();
+		ArrayList<String> renamed = new ArrayList<>();
+		ArrayList<String> copied = new ArrayList<>();
 
 		for (DiffEntry diff : diffs) {
-			if (diff.getChangeType().name().equals("MODIFY") && !modificados.contains(diff.getNewPath())) {
-				modificados.add(diff.getNewPath());
-			} else if (diff.getChangeType().name().equals("ADD") && !adicionados.contains(diff.getNewPath())) {
-				adicionados.add(diff.getNewPath());
-			} else if (diff.getChangeType().name().equals("DELETE") && !removidos.contains(diff.getOldPath())) {
-				removidos.add(diff.getOldPath());
-			} else if (diff.getChangeType().name().equals("RENAME") && !renomeados.contains(diff.getNewPath())) {
-				renomeados.add(diff.getNewPath());
-			} else if (diff.getChangeType().name().equals("COPY") && !copiados.contains(diff.getNewPath())) {
-				copiados.add(diff.getNewPath());
+			if (diff.getChangeType().name().equals("MODIFY") && !modified.contains(diff.getNewPath())) {
+				modified.add(diff.getNewPath());
+			} else if (diff.getChangeType().name().equals("ADD") && !added.contains(diff.getNewPath())) {
+				added.add(diff.getNewPath());
+			} else if (diff.getChangeType().name().equals("DELETE") && !removed.contains(diff.getOldPath())) {
+				removed.add(diff.getOldPath());
+			} else if (diff.getChangeType().name().equals("RENAME") && !renamed.contains(diff.getNewPath())) {
+				renamed.add(diff.getNewPath());
+			} else if (diff.getChangeType().name().equals("COPY") && !copied.contains(diff.getNewPath())) {
+				copied.add(diff.getNewPath());
 			}
 		}
 
 		df.close();
 		rw.close();
 
-		List<String> resultado = new ArrayList<>();
+		List<String> result = new ArrayList<>();
 		List<ChangeType> tipos = Arrays.asList(types);
 
 		if (tipos.contains(ChangeType.ADDED)) {
-			resultado.addAll(adicionados);
+			result.addAll(added);
 		}
 
 		if (tipos.contains(ChangeType.DELETED)) {
-			resultado.addAll(removidos);
+			result.addAll(removed);
 		}
 
 		if (tipos.contains(ChangeType.MODIFIED)) {
-			resultado.addAll(modificados);
-			resultado.addAll(copiados);
-			resultado.addAll(renomeados);
+			result.addAll(modified);
+			result.addAll(copied);
+			result.addAll(renamed);
 		}
 
-		return resultado;
+		return result;
 	}
-
+	
+	public String listAuthorByCommit(String d1, String d2) throws NoHeadException, GitAPIException {
+		
+		Iterable<RevCommit> revisions = searchByDate(d1, d2);
+		
+		Map<String, Integer> count = new HashMap<String, Integer>();
+		
+		for (RevCommit rev : revisions) {
+			String author = rev.getAuthorIdent().getName();
+			
+			Integer i = count.get(author);
+			
+			if (i == null) {
+				count.put(author, 1);
+			} else {
+				count.put(author, i + 1);
+			}
+			
+		}
+		
+		Integer number_changes = 0;
+		String author_more_modifications = null;
+		
+		for (String author : count.keySet()) {
+			Integer i = count.get(author);
+			
+			if (i > number_changes) {
+				number_changes = i;
+				author_more_modifications = author;
+			}
+		}
+		
+		return author_more_modifications + number_changes;
+		
+	}
+	
 	public void close() {
 		git.close();
 	}
