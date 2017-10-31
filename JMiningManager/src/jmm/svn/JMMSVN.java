@@ -1,4 +1,4 @@
-package svn.testes;
+package jmm.svn;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,9 +18,11 @@ import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
-import git.testes.ChangeType;
+import jmm.common.ChangeType;
+import jmm.common.DataUtil;
+import jmm.common.JMMRepository;
 
-public class JMMSVN {
+public class JMMSVN implements JMMRepository {
 
 	private SVNRepository repository;
 	
@@ -31,6 +33,10 @@ public class JMMSVN {
 		ISVNAuthenticationManager authenticator = SVNWCUtil.createDefaultAuthenticationManager(user, password.toCharArray());
 		repository.setAuthenticationManager(authenticator);
 		
+	}
+	
+	public Collection<?> searchByReviosion(String r_initial, String r_final) throws NumberFormatException, SVNException {
+		return searchByReviosion(Long.parseLong(r_initial), Long.parseLong(r_initial));
 	}
 	
 	public Collection<?> searchByReviosion(long initialReviosion, long finalReviosion) throws SVNException {
@@ -53,6 +59,7 @@ public class JMMSVN {
 		
 	}
 	
+	// TODO: Adaptar para usar apenas uma lista (economizar memória).
 	public List<String> listFiles(String id, ChangeType[] types) throws SVNException {
 		
 		Collection<?> revisions = searchByReviosion(1000, 1050);

@@ -1,4 +1,4 @@
-package git.testes;
+package jmm.common;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

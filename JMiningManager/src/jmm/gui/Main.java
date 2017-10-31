@@ -1,7 +1,8 @@
+package jmm.gui;
 import java.util.List;
 
-import git.testes.ChangeType;
-import git.testes.JMMGit;
+import jmm.common.ChangeType;
+import jmm.git.JMMGit;
 
 public class Main {
 

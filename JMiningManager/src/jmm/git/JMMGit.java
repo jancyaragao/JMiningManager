@@ -1,4 +1,4 @@
-package git.testes;
+package jmm.git;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +26,13 @@ import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
+import jmm.common.ChangeType;
+import jmm.common.DataUtil;
+
+/*
+ * TODO: Dar mais opções de parâmetros nas buscas por data.
+ */
+
 public class JMMGit {
 
 	private Git git;
@@ -45,7 +52,12 @@ public class JMMGit {
 		Date date1 = DataUtil.converterStringParaDate(initial_date);
 		Date date2 = DataUtil.converterStringParaDate(final_date);
 
-		RevFilter filtro = CommitTimeRevFilter.between(date1, date2);
+		return searchByDate(date1, date2);
+	}
+	
+	public Iterable<RevCommit> searchByDate(Date initial_date, Date final_date)
+			throws NoHeadException, GitAPIException {
+		RevFilter filtro = CommitTimeRevFilter.between(initial_date, final_date);
 
 		Iterable<RevCommit> revisions = git.log().setRevFilter(filtro).call();
 
@@ -67,6 +79,7 @@ public class JMMGit {
 		return listFiles(id, new ChangeType[] { type });
 	}
 
+	// TODO: Adaptar para usar apenas uma lista (economizar memória).
 	public List<String> listFiles(String id, ChangeType[] types)
 			throws RevisionSyntaxException, AmbiguousObjectException, IncorrectObjectTypeException, IOException {
 		ObjectId objectId = idRepository.resolve(id);
