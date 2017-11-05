@@ -8,7 +8,7 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 
-		JMMGit git = new JMMGit("C:/Users/jancy/git/wicket");
+		JMMGit git = new JMMGit("C:/Users/felipe/git/wicket");
 
 		ChangeType[] types = {ChangeType.ADDED, ChangeType.DELETED};
 		
