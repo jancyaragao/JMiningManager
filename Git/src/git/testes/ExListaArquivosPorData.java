@@ -1,11 +1,10 @@
 package git.testes;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -19,14 +18,35 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 public class ExListaArquivosPorData {
 
 	public static void main(String[] args) throws IOException, NoWorkTreeException, GitAPIException {
-		RepositoryConnection c = new RepositoryConnection("C:/Users/jancy/git/wicket");
-		
+		RepositoryConnection c = new RepositoryConnection("C:/Users/felipe/git/wicket");
 		Iterable<RevCommit> revisoes = c.buscarPorData("01/03/2017", "20/03/2017");
+		Repository rep = c.getRepositorio();
+		
+		RevCommit rinitial = revisoes.iterator().next();
+		RevCommit rfinal = rinitial;
+		
+		// TODO: temos como melhorar isso?
+		for (RevCommit rev : revisoes) {
+			Date revdate = rev.getAuthorIdent().getWhen();
+			
+			if (revdate.before(rinitial.getAuthorIdent().getWhen()))
+				rinitial = rev;
+			
+			if (revdate.after(rfinal.getAuthorIdent().getWhen()))
+				rfinal = rev;
+		}
+		
+		System.out.println(rinitial.getName());
+		System.out.println(rfinal.getName());
 		
 		DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
-		df.setRepository(c.getRepository());
+		df.setRepository(rep);
 		df.setDiffComparator(RawTextComparator.DEFAULT);
 		df.setDetectRenames(true);
+		
+		RevWalk rw = new RevWalk(rep);
+		RevCommit commit = rw.parseCommit(rinitial.getId());
+		RevCommit parent = rw.parseCommit(rfinal.getId());
 		
 		List<DiffEntry> diffs = df.scan(parent.getTree(), commit.getTree());
 		ArrayList<String> modificados = new ArrayList<>();

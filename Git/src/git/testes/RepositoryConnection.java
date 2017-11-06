@@ -30,6 +30,10 @@ public class RepositoryConnection {
 		}
 	}
 
+	public Repository getRepositorio() {
+		return repositorio;
+	}
+
 	public Iterable<RevCommit> buscarPorData(String data_inicial, String data_final)
 			throws NoHeadException, GitAPIException {
 		Date data1 = DataUtil.converterStringParaDate(data_inicial);
@@ -42,8 +46,8 @@ public class RepositoryConnection {
 		return revisoes;
 	}
 
-	public Iterable<RevCommit> buscarPorRevisao(String r1, String r2) throws RevisionSyntaxException, AmbiguousObjectException,
-			IncorrectObjectTypeException, IOException, NoHeadException, GitAPIException {
+	public Iterable<RevCommit> buscarPorRevisao(String r1, String r2) throws RevisionSyntaxException,
+			AmbiguousObjectException, IncorrectObjectTypeException, IOException, NoHeadException, GitAPIException {
 		ObjectId ref_inicial = repositorio.resolve(r1);
 		ObjectId ref_final = repositorio.resolve(r2);
 
@@ -55,7 +59,7 @@ public class RepositoryConnection {
 	public void close() {
 		git.close();
 	}
-	
+
 	public Repository getRepository() {
 		return repositorio;
 	}

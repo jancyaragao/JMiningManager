@@ -21,17 +21,20 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 public class ExListaArquivosPorCommit {
 
 	public static void main(String[] args) throws IOException, NoWorkTreeException, GitAPIException {
-		Git git = Git.open(new File("C:/Users/jancy/git/wicket"));
+		Git git = Git.open(new File("C:/Users/felipe/git/wicket"));
 		Repository repositorio = git.getRepository();
 
 		// 8b6fcd869ceb96f7b4ea003d3d5665a1626390ad > Adição de arquivo
 		// 266c90037d689f47bf45722532536716dc9f5b06 > Remoção de arquivo
 		// 7e032d211feecf00b93f72fd0ee49c42abf08c61 > 2 pais (merge)
-		ObjectId objectId = repositorio.resolve("7e032d211feecf00b93f72fd0ee49c42abf08c61");
+		ObjectId obj_initial = repositorio.resolve("7729e4d469ff728a66dfec3818e584a504b9753c");
+		ObjectId obj_final = repositorio.resolve("1421ea2dc9207143cdadb735f3c79421674d924d");
 
 		RevWalk rw = new RevWalk(repositorio);
-		RevCommit commit = rw.parseCommit(objectId);
-		RevCommit parent = rw.parseCommit(commit.getParent(0).getId());
+		//RevCommit commit = rw.parseCommit(obj_initial);
+		RevCommit rinitial = rw.parseCommit(obj_initial);
+		RevCommit rfinal = rw.parseCommit(obj_final);
+		//RevCommit parent = rw.parseCommit(commit.getParent(0).getId());
 
 		DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
 		df.setRepository(repositorio);
@@ -44,7 +47,8 @@ public class ExListaArquivosPorCommit {
 		// System.out.println(df.getRenameDetector().getRenameScore());
 		// System.out.println(df.getRenameDetector().getBreakScore());
 
-		List<DiffEntry> diffs = df.scan(parent.getTree(), commit.getTree());
+		//List<DiffEntry> diffs = df.scan(parent.getTree(), commit.getTree());
+		List<DiffEntry> diffs = df.scan(rinitial.getTree(), rfinal.getTree());
 		ArrayList<String> modificados = new ArrayList<>();
 		ArrayList<String> adicionados = new ArrayList<>();
 		ArrayList<String> removidos = new ArrayList<>();

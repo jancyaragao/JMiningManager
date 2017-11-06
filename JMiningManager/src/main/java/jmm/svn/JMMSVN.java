@@ -18,11 +18,10 @@ import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
-import jmm.common.ChangeType;
 import jmm.common.DataUtil;
-import jmm.common.JMMRepository;
+import jmm.model.FileChangeType;
 
-public class JMMSVN implements JMMRepository {
+public class JMMSVN {
 
 	private SVNRepository repository;
 	
@@ -60,7 +59,7 @@ public class JMMSVN implements JMMRepository {
 	}
 	
 	// TODO: Adaptar para usar apenas uma lista (economizar memória).
-	public List<String> listFiles(String id, ChangeType[] types) throws SVNException {
+	public List<String> listFiles(String id, FileChangeType[] types) throws SVNException {
 		
 		Collection<?> revisions = searchByReviosion(1000, 1050);
 		
@@ -92,17 +91,17 @@ public class JMMSVN implements JMMRepository {
 		}
 		
 		List<String> result = new ArrayList<>();
-		List<ChangeType> tipos = Arrays.asList(types);
+		List<FileChangeType> tipos = Arrays.asList(types);
 
-		if (tipos.contains(ChangeType.ADDED)) {
+		if (tipos.contains(FileChangeType.ADDED)) {
 			result.addAll(added);
 		}
 
-		if (tipos.contains(ChangeType.DELETED)) {
+		if (tipos.contains(FileChangeType.DELETED)) {
 			result.addAll(removed);
 		}
 
-		if (tipos.contains(ChangeType.MODIFIED)) {
+		if (tipos.contains(FileChangeType.MODIFIED)) {
 			result.addAll(modified);
 			result.addAll(replaced);
 		}

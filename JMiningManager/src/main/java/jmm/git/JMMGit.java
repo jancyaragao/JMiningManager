@@ -26,8 +26,8 @@ import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
-import jmm.common.ChangeType;
 import jmm.common.DataUtil;
+import jmm.model.FileChangeType;
 
 /*
  * TODO: Dar mais opções de parâmetros nas buscas por data.
@@ -74,13 +74,13 @@ public class JMMGit {
 		return revisions;
 	}
 
-	public List<String> listFiles(String id, ChangeType type)
+	public List<String> listFiles(String id, FileChangeType type)
 			throws RevisionSyntaxException, AmbiguousObjectException, IncorrectObjectTypeException, IOException {
-		return listFiles(id, new ChangeType[] { type });
+		return listFiles(id, new FileChangeType[] { type });
 	}
 
 	// TODO: Adaptar para usar apenas uma lista (economizar memória).
-	public List<String> listFiles(String id, ChangeType[] types)
+	public List<String> listFiles(String id, FileChangeType[] types)
 			throws RevisionSyntaxException, AmbiguousObjectException, IncorrectObjectTypeException, IOException {
 		ObjectId objectId = idRepository.resolve(id);
 
@@ -118,17 +118,17 @@ public class JMMGit {
 		rw.close();
 
 		List<String> result = new ArrayList<>();
-		List<ChangeType> tipos = Arrays.asList(types);
+		List<FileChangeType> tipos = Arrays.asList(types);
 
-		if (tipos.contains(ChangeType.ADDED)) {
+		if (tipos.contains(FileChangeType.ADDED)) {
 			result.addAll(added);
 		}
 
-		if (tipos.contains(ChangeType.DELETED)) {
+		if (tipos.contains(FileChangeType.DELETED)) {
 			result.addAll(removed);
 		}
 
-		if (tipos.contains(ChangeType.MODIFIED)) {
+		if (tipos.contains(FileChangeType.MODIFIED)) {
 			result.addAll(modified);
 			result.addAll(copied);
 			result.addAll(renamed);

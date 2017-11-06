@@ -11,7 +11,7 @@ public class ExPorData {
 	
 	public static void main(String[] args) throws IOException, NoHeadException, GitAPIException {
 		
-		RepositoryConnection c = new RepositoryConnection("C:/Users/jancy/git/wicket");
+		RepositoryConnection c = new RepositoryConnection("C:/Users/felipe/git/wicket");
 		
 		Iterable<RevCommit> revisoes = c.buscarPorData("01/03/2017", "20/03/2017");
 		
