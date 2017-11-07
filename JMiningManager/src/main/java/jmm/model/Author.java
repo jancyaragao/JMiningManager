@@ -6,6 +6,7 @@ public class Author {
 
 	private String name;
 	private String email;
+	
 	private List<Change> changes;
 
 	public String getName() {

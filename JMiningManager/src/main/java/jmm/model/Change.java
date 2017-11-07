@@ -9,7 +9,7 @@ public class Change {
 	private Author author;
 	private Date date;
 
-	private List<ChangedFile> paths;
+	private List<ChangedFile> files;
 
 	public String getCommit() {
 		return commit;
@@ -35,12 +35,12 @@ public class Change {
 		this.date = date;
 	}
 
-	public List<ChangedFile> getPaths() {
-		return paths;
+	public List<ChangedFile> getFiles() {
+		return files;
 	}
 
-	public void setPaths(List<ChangedFile> paths) {
-		this.paths = paths;
+	public void setFiles(List<ChangedFile> files) {
+		this.files = files;
 	}
 
 }

@@ -18,7 +18,6 @@ public class Main {
 		System.out.println("Total: " + paths.size());
 		for (String p : paths)
 			System.out.println(p);
-
 	}
 
 }

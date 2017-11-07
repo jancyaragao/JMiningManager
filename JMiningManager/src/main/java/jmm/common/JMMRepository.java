@@ -10,7 +10,7 @@ import jmm.model.ChangedFile;
 public interface JMMRepository {
 
 	// Queries for changes
-	public Change changeCommit(String commit_code);
+	public Change changeFromCommit(String commit_code);
 
 	public List<Change> changesBetweenCommits(String initial_commit, String final_commit);
 
@@ -27,13 +27,13 @@ public interface JMMRepository {
 
 	public List<Author> authorsBetweenDates(String initial_date, String final_date, boolean sorted);
 
-	// Queries for paths
-	public List<ChangedFile> pathsFromCommit(String commit_code);
+	// Queries for files
+	public List<ChangedFile> filesFromCommit(String commit_code);
 
-	public List<ChangedFile> pathsBetweenCommits(String initial_commit, String final_commit, boolean sorted);
+	public List<ChangedFile> filesBetweenCommits(String initial_commit, String final_commit, boolean sorted);
 
-	public List<ChangedFile> pathsBetweenDates(Date initial_date, Date final_date, boolean sorted);
+	public List<ChangedFile> filesBetweenDates(Date initial_date, Date final_date, boolean sorted);
 
-	public List<ChangedFile> pathsBetweenDates(String initial_date, String final_date, boolean sorted);
+	public List<ChangedFile> filesBetweenDates(String initial_date, String final_date, boolean sorted);
 
 }

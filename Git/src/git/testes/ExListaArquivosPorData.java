@@ -36,8 +36,8 @@ public class ExListaArquivosPorData {
 				rfinal = rev;
 		}
 		
-		System.out.println(rinitial.getName());
-		System.out.println(rfinal.getName());
+		System.out.println("Initial: " + rinitial.getName());
+		System.out.println("Final: " + rfinal.getName());
 		
 		DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
 		df.setRepository(rep);
