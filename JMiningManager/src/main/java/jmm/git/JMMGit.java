@@ -78,6 +78,28 @@ public class JMMGit {
 			throws RevisionSyntaxException, AmbiguousObjectException, IncorrectObjectTypeException, IOException {
 		return listFiles(id, new FileChangeType[] { type });
 	}
+	
+	public List<String> listFiles(Date d1, Date d2, FileChangeType type)
+			throws RevisionSyntaxException, AmbiguousObjectException, IncorrectObjectTypeException, IOException, NoHeadException, GitAPIException {
+		Iterable<RevCommit> revisoes = searchByDate("01/03/2017", "20/03/2017");
+		
+		RevCommit rinitial = revisoes.iterator().next();
+		RevCommit rfinal = rinitial;
+		
+		// TODO: temos como melhorar isso?
+		for (RevCommit rev : revisoes) {
+			Date revdate = rev.getAuthorIdent().getWhen();
+			
+			if (revdate.before(rinitial.getAuthorIdent().getWhen()))
+				rinitial = rev;
+			
+			if (revdate.after(rfinal.getAuthorIdent().getWhen()))
+				rfinal = rev;
+		}
+		
+		return listFiles(d1, d2, type);
+		
+	}
 
 	// TODO: Adaptar para usar apenas uma lista (economizar memória).
 	public List<String> listFiles(String id, FileChangeType[] types)
