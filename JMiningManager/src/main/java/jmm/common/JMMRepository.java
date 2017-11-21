@@ -6,6 +6,7 @@ import java.util.List;
 import jmm.model.Author;
 import jmm.model.Change;
 import jmm.model.ChangedFile;
+import jmm.model.FileChangeType;
 
 public interface JMMRepository {
 
@@ -35,5 +36,8 @@ public interface JMMRepository {
 	public List<ChangedFile> filesBetweenDates(Date initial_date, Date final_date, boolean sorted);
 
 	public List<ChangedFile> filesBetweenDates(String initial_date, String final_date, boolean sorted);
+
+	// Filters
+	public List<ChangedFile> filterFilesByChangeType(List<ChangedFile> files, FileChangeType[] types);
 
 }

@@ -27,6 +27,7 @@ import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 import jmm.common.DataUtil;
+import jmm.model.Change;
 import jmm.model.FileChangeType;
 
 /*
@@ -64,6 +65,11 @@ public class JMMGit {
 		return revisions;
 	}
 
+	public Change changeFromCommit(String commit_code) {
+		Change change = new Change();
+		
+	}
+	
 	public Iterable<RevCommit> searchByRevision(String r1, String r2) throws RevisionSyntaxException,
 			AmbiguousObjectException, IncorrectObjectTypeException, IOException, NoHeadException, GitAPIException {
 		ObjectId initial_rev = idRepository.resolve(r1);
@@ -79,14 +85,21 @@ public class JMMGit {
 		return listFiles(id, new FileChangeType[] { type });
 	}
 	
-	public List<String> listFiles(Date d1, Date d2, FileChangeType type)
-			throws RevisionSyntaxException, AmbiguousObjectException, IncorrectObjectTypeException, IOException, NoHeadException, GitAPIException {
-		Iterable<RevCommit> revisoes = searchByDate("01/03/2017", "20/03/2017");
+	public List<String> listFiles(String initial_date, String final_date, FileChangeType[] types) throws Exception {
+		Date date1 = DataUtil.converterStringParaDate(initial_date);
+		Date date2 = DataUtil.converterStringParaDate(final_date);
 		
+		return listFiles(date1, date2, types);
+	}
+	
+	// TODO: Adaptar para usar apenas uma lista (economizar memória).
+	public List<String> listFiles(Date d1, Date d2, FileChangeType[] types) throws Exception {
+		Iterable<RevCommit> revisoes = searchByDate(d1, d2);
+		
+		/* TODO: temos como melhorar isso? */
 		RevCommit rinitial = revisoes.iterator().next();
 		RevCommit rfinal = rinitial;
 		
-		// TODO: temos como melhorar isso?
 		for (RevCommit rev : revisoes) {
 			Date revdate = rev.getAuthorIdent().getWhen();
 			
@@ -96,9 +109,62 @@ public class JMMGit {
 			if (revdate.after(rfinal.getAuthorIdent().getWhen()))
 				rfinal = rev;
 		}
+		/* TODO: temos como melhorar isso? */
 		
-		return listFiles(d1, d2, type);
+		System.out.println("Initial: " + rinitial.getName());
+		System.out.println("Final: " + rfinal.getName());
 		
+		DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
+		df.setRepository(idRepository);
+		df.setDiffComparator(RawTextComparator.DEFAULT);
+		df.setDetectRenames(true);
+		
+		RevWalk rw = new RevWalk(idRepository);
+		RevCommit commit = rw.parseCommit(rinitial.getId());
+		RevCommit parent = rw.parseCommit(rfinal.getId());
+
+		List<DiffEntry> diffs = df.scan(parent.getTree(), commit.getTree());
+		ArrayList<String> added = new ArrayList<>();
+		ArrayList<String> removed = new ArrayList<>();
+		ArrayList<String> modified = new ArrayList<>();
+		ArrayList<String> renamed = new ArrayList<>();
+		ArrayList<String> copied = new ArrayList<>();
+
+		for (DiffEntry diff : diffs) {
+			if (diff.getChangeType().name().equals("MODIFY") && !modified.contains(diff.getNewPath())) {
+				modified.add(diff.getNewPath());
+			} else if (diff.getChangeType().name().equals("ADD") && !added.contains(diff.getNewPath())) {
+				added.add(diff.getNewPath());
+			} else if (diff.getChangeType().name().equals("DELETE") && !removed.contains(diff.getOldPath())) {
+				removed.add(diff.getOldPath());
+			} else if (diff.getChangeType().name().equals("RENAME") && !renamed.contains(diff.getNewPath())) {
+				renamed.add(diff.getNewPath());
+			} else if (diff.getChangeType().name().equals("COPY") && !copied.contains(diff.getNewPath())) {
+				copied.add(diff.getNewPath());
+			}
+		}
+
+		df.close();
+		rw.close();
+
+		List<String> result = new ArrayList<>();
+		List<FileChangeType> tipos = Arrays.asList(types);
+
+		if (tipos.contains(FileChangeType.ADDED)) {
+			result.addAll(added);
+		}
+
+		if (tipos.contains(FileChangeType.DELETED)) {
+			result.addAll(removed);
+		}
+
+		if (tipos.contains(FileChangeType.MODIFIED)) {
+			result.addAll(modified);
+			result.addAll(copied);
+			result.addAll(renamed);
+		}
+
+		return result;
 	}
 
 	// TODO: Adaptar para usar apenas uma lista (economizar memória).
