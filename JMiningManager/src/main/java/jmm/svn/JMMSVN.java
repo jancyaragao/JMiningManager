@@ -34,14 +34,14 @@ public class JMMSVN {
 		
 	}
 	
-	public Collection<?> searchByReviosion(String r_initial, String r_final) throws NumberFormatException, SVNException {
-		return searchByReviosion(Long.parseLong(r_initial), Long.parseLong(r_initial));
+	public Collection<?> searchByRevision(String r_initial, String r_final) throws NumberFormatException, SVNException {
+		return searchByRevision(Long.parseLong(r_initial), Long.parseLong(r_initial));
 	}
 	
-	public Collection<?> searchByReviosion(long initialReviosion, long finalReviosion) throws SVNException {
+	public Collection<?> searchByRevision(long initialRevision, long finalRevision) throws SVNException {
 		
-		Collection<?> reviosions = repository.log(new String[] { "" }, null, initialReviosion, finalReviosion, true, true);
-		return reviosions;
+		Collection<?> revisions = repository.log(new String[] { "" }, null, initialRevision, finalRevision, true, true);
+		return revisions;
 		
 	}
 	
@@ -61,7 +61,7 @@ public class JMMSVN {
 	// TODO: Adaptar para usar apenas uma lista (economizar memória).
 	public List<String> listFiles(String id, FileChangeType[] types) throws SVNException {
 		
-		Collection<?> revisions = searchByReviosion(1000, 1050);
+		Collection<?> revisions = searchByRevision(1000, 1050);
 		
 		ArrayList<String> added = new ArrayList<>();
 		ArrayList<String> removed = new ArrayList<>();
