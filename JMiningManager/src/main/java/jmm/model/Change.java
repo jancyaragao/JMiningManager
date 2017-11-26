@@ -43,4 +43,9 @@ public class Change {
 		this.files = files;
 	}
 
+	@Override
+	public String toString() {
+		return "Change [commit=" + commit + ", author=" + author + ", date=" + date + ", files=" + files + "]";
+	}
+
 }

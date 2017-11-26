@@ -6,7 +6,7 @@ public class Author {
 
 	private String name;
 	private String email;
-	
+
 	private List<Change> changes;
 
 	public String getName() {
@@ -31,6 +31,11 @@ public class Author {
 
 	public void setChanges(List<Change> changes) {
 		this.changes = changes;
+	}
+
+	@Override
+	public String toString() {
+		return "Author [name=" + name + ", email=" + email + ", changes=" + changes + "]";
 	}
 
 }

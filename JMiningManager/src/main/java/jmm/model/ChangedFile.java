@@ -30,4 +30,9 @@ public class ChangedFile {
 		this.type = type;
 	}
 
+	@Override
+	public String toString() {
+		return "ChangedFile [path=" + path + ", changes=" + changes + ", type=" + type + "]";
+	}
+
 }

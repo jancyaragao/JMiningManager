@@ -17,8 +17,6 @@ public interface JMMRepository {
 
 	public List<Change> changesBetweenDates(Date initial_date, Date final_date);
 
-	public List<Change> changesBetweenDates(String initial_date, String final_date);
-
 	// Queries for author
 	public Author authorFromCommit(String commit_code);
 
@@ -26,18 +24,16 @@ public interface JMMRepository {
 
 	public List<Author> authorsBetweenDates(Date initial_date, Date final_date, boolean sorted);
 
-	public List<Author> authorsBetweenDates(String initial_date, String final_date, boolean sorted);
-
 	// Queries for files
 	public List<ChangedFile> filesFromCommit(String commit_code);
 
-	public List<ChangedFile> filesBetweenCommits(String initial_commit, String final_commit, boolean sorted);
+	public List<ChangedFile> filesBetweenCommits(String initial_commit, String final_commit);
 
-	public List<ChangedFile> filesBetweenDates(Date initial_date, Date final_date, boolean sorted);
+	public List<ChangedFile> filesBetweenDates(Date initial_date, Date final_date);
 
-	public List<ChangedFile> filesBetweenDates(String initial_date, String final_date, boolean sorted);
-
-	// Filters
+	// Other operations
 	public List<ChangedFile> filterFilesByChangeType(List<ChangedFile> files, FileChangeType[] types);
+
+	public void closeJMMRepository();
 
 }
