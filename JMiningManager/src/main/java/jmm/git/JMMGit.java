@@ -6,11 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jgit.api.Git;
-<<<<<<< HEAD
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
-=======
->>>>>>> branch 'master' of https://github.com/jancywdson/Version-Control-System.git
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -35,11 +32,8 @@ public class JMMGit implements JMMRepository {
 			e.printStackTrace();
 		}
 	}
-<<<<<<< HEAD
-	
-	// Queries for changes
-=======
 
+	// Queries for changes
 	@Override
 	public List<Change> changesBetweenDates(Date initial_date, Date final_date) {
 		RevFilter filtro = CommitTimeRevFilter.between(initial_date, final_date);
@@ -71,16 +65,11 @@ public class JMMGit implements JMMRepository {
 		return GitUtil.fromRevCommitToChange(revisions);
 	}
 
->>>>>>> branch 'master' of https://github.com/jancywdson/Version-Control-System.git
 	@Override
 	public Change changeFromCommit(String commit_code) {
 		Repository rep = git.getRepository();
 		RevCommit revision = null;
-<<<<<<< HEAD
-		
-=======
 
->>>>>>> branch 'master' of https://github.com/jancywdson/Version-Control-System.git
 		try {
 			RevWalk rw = new RevWalk(rep);
 			revision = rw.parseCommit(rep.resolve(commit_code));
@@ -92,42 +81,8 @@ public class JMMGit implements JMMRepository {
 		return GitUtil.fromRevCommitToChange(revision);
 	}
 
-	@Override
-<<<<<<< HEAD
-	public List<Change> changesBetweenCommits(String initial_commit, String final_commit) {
-		Repository rep = git.getRepository();
-		Iterable<RevCommit> revisions = null;
-		
-		try {
-			ObjectId initial_revision = rep.resolve(initial_commit);
-			ObjectId final_revision = rep.resolve(final_commit);
-			
-			revisions = git.log().addRange(initial_revision, final_revision).call();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return GitUtil.fromRevCommitToChange(revisions);
-	}
-	
-	@Override
-	public List<Change> changesBetweenDates(Date initial_date, Date final_date) {
-		RevFilter filter = CommitTimeRevFilter.between(initial_date, final_date);
-
-		Iterable<RevCommit> revisions = null;
-		try {
-			revisions = git.log().setRevFilter(filter).call();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return GitUtil.fromRevCommitToChange(revisions);
-	}
-	
 	// Queries for files
 	@Override
-=======
->>>>>>> branch 'master' of https://github.com/jancywdson/Version-Control-System.git
 	public List<ChangedFile> filesFromCommit(String commit_code) {
 		Repository rep = git.getRepository();
 
@@ -169,19 +124,11 @@ public class JMMGit implements JMMRepository {
 
 	@Override
 	public List<ChangedFile> filesBetweenDates(Date initial_date, Date final_date) {
-<<<<<<< HEAD
 		RevFilter filter = CommitTimeRevFilter.between(initial_date, final_date);
 
 		Iterable<RevCommit> revisions = null;
 		try {
 			revisions = git.log().setRevFilter(filter).call();
-=======
-		RevFilter filtro = CommitTimeRevFilter.between(initial_date, final_date);
-
-		Iterable<RevCommit> revisions = null;
-		try {
-			revisions = git.log().setRevFilter(filtro).call();
->>>>>>> branch 'master' of https://github.com/jancywdson/Version-Control-System.git
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -198,87 +145,59 @@ public class JMMGit implements JMMRepository {
 
 			if (revdate.after(final_revision.getAuthorIdent().getWhen()))
 				final_revision = rev;
-<<<<<<< HEAD
 		}
 
 		return GitUtil.filesBetweenRevCommits(git.getRepository(), initial_revision, final_revision);
 	}
 
+	// Queries for author
 	@Override
 	public Author authorFromCommit(String commit_code) {
 		Repository rep = git.getRepository();
 		RevCommit revision = null;
-		
+
 		RevWalk rw = new RevWalk(rep);
 		try {
 			revision = rw.parseCommit(rep.resolve(commit_code));
 			rw.close();
 		} catch (RevisionSyntaxException | IOException e) {
 			e.printStackTrace();
-=======
->>>>>>> branch 'master' of https://github.com/jancywdson/Version-Control-System.git
 		}
-<<<<<<< HEAD
-		
-		return GitUtil.fromRevCommitToAuthor(revision);
-=======
 
-		return GitUtil.filesBetweenRevCommits(git.getRepository(), initial_revision, final_revision);
->>>>>>> branch 'master' of https://github.com/jancywdson/Version-Control-System.git
+		return GitUtil.fromRevCommitToAuthor(revision);
 	}
-<<<<<<< HEAD
-	
+
 	@Override
 	public List<Author> authorsBetweenCommits(String initial_commit, String final_commit, boolean sorted) {
 		Repository rep = git.getRepository();
 		Iterable<RevCommit> revisions = null;
-				
-				try {
-					ObjectId initial_revision = rep.resolve(initial_commit);
-					ObjectId final_revision = rep.resolve(final_commit);
-					revisions = git.log().addRange(initial_revision, final_revision).call();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-		
+
+		try {
+			ObjectId initial_revision = rep.resolve(initial_commit);
+			ObjectId final_revision = rep.resolve(final_commit);
+			revisions = git.log().addRange(initial_revision, final_revision).call();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return GitUtil.fromRevCommitToAuthor(revisions);
 	}
 
 	@Override
 	public List<Author> authorsBetweenDates(Date initial_date, Date final_date, boolean sorted) {
 		RevFilter filter = CommitTimeRevFilter.between(initial_date, final_date);
-		
+
 		Iterable<RevCommit> revisions = null;
-		
+
 		try {
 			revisions = git.log().setRevFilter(filter).call();
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
-		
+
 		return GitUtil.fromRevCommitToAuthor(revisions);
 	}
 
-	// Other operations
-=======
-
-	@Override
-	public Author authorFromCommit(String commit_code) {
-		RevCommit revision = GitUtil.fromCommitCodeToRevCommit(git.getRepository(), commit_code);
-		return GitUtil.fromRevCommitToAuthor(revision);
-	}
-
-	@Override
-	public List<Author> authorsBetweenCommits(String initial_commit, String final_commit, boolean sorted) {
-		return null;
-	}
-
-	@Override
-	public List<Author> authorsBetweenDates(Date initial_date, Date final_date, boolean sorted) {
-		return null;
-	}
-
->>>>>>> branch 'master' of https://github.com/jancywdson/Version-Control-System.git
 	@Override
 	public List<ChangedFile> filterFilesByChangeType(List<ChangedFile> files, FileChangeType[] types) {
 		return null;
