@@ -22,4 +22,8 @@ dependencies {
 	
 	// https://mvnrepository.com/artifact/junit/junit
 	testCompile group: 'junit', name: 'junit', version: '4.12'
+	
+	// https://mvnrepository.com/artifact/com.toedter/jcalendar
+	compile group: 'com.toedter', name: 'jcalendar', version: '1.4'
+	
 }
