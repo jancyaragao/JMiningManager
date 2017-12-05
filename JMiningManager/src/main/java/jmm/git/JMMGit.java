@@ -25,9 +25,9 @@ public class JMMGit implements JMMRepository {
 
 	private Git git;
 
-	public JMMGit(String path) {
+	public JMMGit(String url, String user, String password) {
 		try {
-			git = Git.open(new File(path));
+			git = Git.open(new File(url));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

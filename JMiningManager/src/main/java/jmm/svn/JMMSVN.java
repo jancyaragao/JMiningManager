@@ -19,16 +19,26 @@ import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import jmm.common.DataUtil;
+import jmm.common.JMMRepository;
+import jmm.model.Author;
+import jmm.model.Change;
+import jmm.model.ChangedFile;
 import jmm.model.FileChangeType;
 
-public class JMMSVN {
+public class JMMSVN implements JMMRepository {
 
 	private SVNRepository repository;
 	
-	public JMMSVN(String url, String user, String password) throws SVNException {
+	public JMMSVN(String url, String user, String password) {
 		
 		DAVRepositoryFactory.setup();
-		repository = SVNRepositoryFactory.create(SVNURL.parseURIEncoded(url));
+		
+		try {
+			repository = SVNRepositoryFactory.create(SVNURL.parseURIEncoded(url));
+		} catch (SVNException e) {
+			e.printStackTrace();
+		}
+		
 		ISVNAuthenticationManager authenticator = SVNWCUtil.createDefaultAuthenticationManager(user, password.toCharArray());
 		repository.setAuthenticationManager(authenticator);
 		
@@ -143,6 +153,72 @@ public class JMMSVN {
 		}
 		
 		return author_more_modifications + number_changes;
+	}
+
+	@Override
+	public Change changeFromCommit(String commit_code) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Change> changesBetweenCommits(String initial_commit, String final_commit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Change> changesBetweenDates(Date initial_date, Date final_date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Author authorFromCommit(String commit_code) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Author> authorsBetweenCommits(String initial_commit, String final_commit, boolean sorted) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Author> authorsBetweenDates(Date initial_date, Date final_date, boolean sorted) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ChangedFile> filesFromCommit(String commit_code) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ChangedFile> filesBetweenCommits(String initial_commit, String final_commit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ChangedFile> filesBetweenDates(Date initial_date, Date final_date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ChangedFile> filterFilesByChangeType(List<ChangedFile> files, FileChangeType[] types) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void closeJMMRepository() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

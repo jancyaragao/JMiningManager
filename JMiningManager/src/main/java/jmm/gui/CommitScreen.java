@@ -12,6 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import jmm.common.JMMRepository;
+
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -26,6 +29,8 @@ public class CommitScreen extends JFrame {
 	private JTextField textFieldInitial;
 	private JTextField textFieldFinal;
 
+	private JMMRepository repository;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -33,7 +38,7 @@ public class CommitScreen extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CommitScreen frame = new CommitScreen();
+					CommitScreen frame = new CommitScreen(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +50,9 @@ public class CommitScreen extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CommitScreen() {
+	public CommitScreen(JMMRepository repository) {
+		this.repository = repository;
+		
 		setFont(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("JMM - Java Mining Manager");

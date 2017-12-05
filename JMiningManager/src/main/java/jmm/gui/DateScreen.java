@@ -17,6 +17,8 @@ import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
 
+import jmm.common.JMMRepository;
+
 public class DateScreen extends JFrame {
 
 	/**
@@ -25,6 +27,8 @@ public class DateScreen extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
+	private JMMRepository repository;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -32,7 +36,7 @@ public class DateScreen extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DateScreen frame = new DateScreen();
+					DateScreen frame = new DateScreen(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,7 +48,9 @@ public class DateScreen extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public DateScreen() {
+	public DateScreen(JMMRepository repository) {
+		this.repository = repository;
+		
 		setFont(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("JMM - Java Mining Manager");
@@ -117,12 +123,15 @@ public class DateScreen extends JFrame {
 		
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
 				if (dateChooserInitial.getDate() == null) {
 					JOptionPane.showMessageDialog(null, "Report the initial commit", "Attention", JOptionPane.WARNING_MESSAGE);
 				} else if (group1.isSelected(null)) {
 					JOptionPane.showMessageDialog(null, "Report the queries to be searched", "Attention", JOptionPane.WARNING_MESSAGE);
 				}
+				// mais testes para verificar o tipo da busca
+				// usar o objeto repository para executar a busca
 			}
 		});
 		

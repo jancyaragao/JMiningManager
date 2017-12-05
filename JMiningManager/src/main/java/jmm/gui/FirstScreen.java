@@ -16,6 +16,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import jmm.common.JMMRepository;
+import jmm.git.JMMGit;
+import jmm.svn.JMMSVN;
+
 public class FirstScreen extends JFrame {
 
 	/**
@@ -33,6 +37,7 @@ public class FirstScreen extends JFrame {
 			public void run() {
 				try {
 					FirstScreen frame = new FirstScreen();
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -133,12 +138,21 @@ public class FirstScreen extends JFrame {
 				} else if (textFieldRepository.getText().length() == 0) {
 					JOptionPane.showMessageDialog(null, "Report the repository", "Attention", JOptionPane.WARNING_MESSAGE);
 				} else {
+					JMMRepository repository = null;
+					
+					if (rdbtnGit.isSelected()) {
+						repository = new JMMGit(textFieldRepository.getText(), "", "");
+					}
+					else {
+						repository = new JMMSVN(textFieldRepository.getText(), "", "");
+					}
+					
 					if (rdbtnCommit.isSelected()) {
-						CommitScreen commitScreen = new CommitScreen();
+						CommitScreen commitScreen = new CommitScreen(repository);
 						commitScreen.setVisible(true);
 						dispose();
 					} else if (rdbtnDate.isSelected()) {
-						DateScreen dateScreen = new DateScreen();
+						DateScreen dateScreen = new DateScreen(repository);
 						dateScreen.setVisible(true);
 						dispose();
 					}
