@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -18,7 +19,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import jmm.common.JMMRepository;
-import jmm.model.Author;
 import jmm.model.Change;
 
 public class CommitScreen extends JFrame {
@@ -148,9 +148,17 @@ public class CommitScreen extends JFrame {
 					JOptionPane.showMessageDialog(null, "Report the queries to be searched", "Attention", JOptionPane.WARNING_MESSAGE);
 				} else {
 					if (chckbxForChanges.isSelected()) {
-						Change c = repository.changeFromCommit(textFieldInitial.getText());
-						ResultScreen rs = new ResultScreen(c);
-						rs.setVisible(true);
+						
+						if (textFieldFinal.getText().length() == 0) {
+							Change c = repository.changeFromCommit(textFieldInitial.getText());
+							ResultScreen rs = new ResultScreen(c);
+							rs.setVisible(true);
+						}
+						else {
+							List<Change> changes = repository.changesBetweenCommits(textFieldInitial.getText(), textFieldFinal.getText());
+							ResultScreen rs = new ResultScreen(changes);
+							rs.setVisible(true);
+						}
 					}
 //					else if (chckbxForAuthor.isSelected()) {
 //						Author a = repository.authorFromCommit(textFieldInitial.getText());

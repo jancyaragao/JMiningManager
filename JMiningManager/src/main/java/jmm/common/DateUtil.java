@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public abstract class DataUtil {
+public abstract class DateUtil {
 
 	public static Date converterStringParaDate(String data_texto) {
         Date data = null;

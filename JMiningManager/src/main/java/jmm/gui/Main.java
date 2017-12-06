@@ -3,7 +3,7 @@ package jmm.gui;
 import java.util.Date;
 import java.util.List;
 
-import jmm.common.DataUtil;
+import jmm.common.DateUtil;
 import jmm.git.JMMGit;
 import jmm.model.ChangedFile;
 
@@ -44,8 +44,8 @@ public class Main {
 	public static void testFilesBetweenDates() {
 		JMMGit git = new JMMGit("C:/Users/jancy/git/wicket", "", "");
 
-		Date initial_date = DataUtil.converterStringParaDate("01/03/2017");
-		Date final_date = DataUtil.converterStringParaDate("20/03/2017");
+		Date initial_date = DateUtil.converterStringParaDate("01/03/2017");
+		Date final_date = DateUtil.converterStringParaDate("20/03/2017");
 
 		List<ChangedFile> files = git.filesBetweenDates(initial_date, final_date);
 

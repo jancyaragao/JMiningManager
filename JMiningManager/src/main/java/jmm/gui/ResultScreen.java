@@ -1,26 +1,22 @@
 package jmm.gui;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.border.EmptyBorder;
 
-import jmm.model.Author;
+import jmm.common.DateUtil;
 import jmm.model.Change;
 
 public class ResultScreen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
-	private JPanel contentPane;
-	private JTable tableResult;
-	
-//	private final String colunas[] = {};
-//	private final String dados[][] = {};
 
 	/**
 	 * Launch the application.
@@ -29,7 +25,7 @@ public class ResultScreen extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ResultScreen frame = new ResultScreen(null);
+					ResultScreen frame = new ResultScreen(new Change());
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -39,54 +35,57 @@ public class ResultScreen extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 * @wbp.parser.constructor
-	 */
 	public ResultScreen(Change c) {
 		init();
-		final String colunas[] = {"Commit", "Author", "Date", "Files"};
-		final String dados[] = {String.valueOf(c.getCommit()), c.getAuthor().getName(), String.valueOf(c.getDate()), String.valueOf(c.getFiles())};
-		System.out.println(colunas + System.lineSeparator() + dados);
+
+		String[] columns = new String[] { "Author Name", "Author E-mail", "Commit Date", "Commit Code" };
+
+		Object[][] rows = new Object[][] {
+			{ c.getAuthor().getName(), c.getAuthor().getEmail(), DateUtil.converterDateParaString(c.getDate()), c.getCommit() }
+		};
+
+		Font f = new Font("Cambria", Font.PLAIN, 18);
+		
+		JTable table = new JTable(rows, columns);
+		table.setFont(f);
+		table.getTableHeader().setFont(f);
+		table.setRowHeight(30);
+		table.setEnabled(false);
+		add(new JScrollPane(table));
 	}
 	
-//	public ResultScreen(Author a) {
-//		init();
-//		
-////		JTextArea tarea = new JTextArea();
-////		
-////		tarea.setBounds(0, 0, 448, 233);
-////		tarea.setEditable(false);
-////		
-////		StringBuilder sb = new StringBuilder();
-////		sb.append("Nome: " + a.getName() + System.lineSeparator());
-////		sb.append("E-Mail: " + a.getEmail() + System.lineSeparator());
-////		sb.append("--------------------------");
-////		
-////		tarea.setText(sb.toString());
-////		
-////		contentPane.add(tarea);
-//	}
+	public ResultScreen(List<Change> changes) {
+		init();
+
+		String[] columns = new String[] { "Author Name", "Author E-mail", "Commit Date", "Commit Code" };
+		
+		Object[][] rows = new Object[changes.size()][];
+		
+		for (int i = 0; i < rows.length; i++) {
+			Change c = changes.get(i);
+			rows[i] = new Object[]{ c.getAuthor().getName(), c.getAuthor().getEmail(), DateUtil.converterDateParaString(c.getDate()), c.getCommit() };
+		}
+
+		Font f = new Font("Cambria", Font.PLAIN, 18);
+		
+		JTable table = new JTable(rows, columns);
+		table.setFont(f);
+		table.getTableHeader().setFont(f);
+		table.setRowHeight(30);
+		table.setEnabled(false);
+		add(new JScrollPane(table));
+	}
 
 	private void init() {
-		setResizable(false);
-		setFont(null);
+		//setResizable(false);
 		setTitle("JMM - Java Mining Manager");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 480, 272);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		ImageIcon logo = new ImageIcon("src/main/java/jmm/logo/jmm_logo.png");
-		setIconImage(logo.getImage());
+		setIconImage(new ImageIcon("src/main/java/jmm/logo/jmm_logo.png").getImage());
+
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setPreferredSize(new Dimension(screenSize.width * 2 / 3, screenSize.height * 2 / 3));
 		
-		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBounds(457, 0, 17, 243);
-		contentPane.add(scrollBar);
-		
-		tableResult = new JTable();
-		tableResult.setBounds(0, 0, 464, 243);
-		contentPane.add(tableResult);
+		pack();
 	}
+
 }

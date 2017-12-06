@@ -18,7 +18,7 @@ import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
-import jmm.common.DataUtil;
+import jmm.common.DateUtil;
 import jmm.common.JMMRepository;
 import jmm.model.Author;
 import jmm.model.Change;
@@ -57,8 +57,8 @@ public class JMMSVN implements JMMRepository {
 	
 	public Collection<?> searchByDate(String initialDate, String finalDate) throws SVNException {
 		
-		Date start = DataUtil.converterStringParaDate(initialDate);
-		Date end = DataUtil.converterStringParaDate(finalDate);
+		Date start = DateUtil.converterStringParaDate(initialDate);
+		Date end = DateUtil.converterStringParaDate(finalDate);
 		
 		long initialReviosion = repository.getDatedRevision(start);
 		long finalReviosion = repository.getDatedRevision(end);
