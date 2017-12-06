@@ -18,6 +18,7 @@ import jmm.common.JMMRepository;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class CommitScreen extends JFrame {
 
@@ -39,6 +40,7 @@ public class CommitScreen extends JFrame {
 			public void run() {
 				try {
 					CommitScreen frame = new CommitScreen(null);
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,6 +53,7 @@ public class CommitScreen extends JFrame {
 	 * Create the frame.
 	 */
 	public CommitScreen(JMMRepository repository) {
+		setResizable(false);
 		this.repository = repository;
 		
 		setFont(null);
@@ -65,49 +68,59 @@ public class CommitScreen extends JFrame {
 		setIconImage(logo.getImage());
 		
 		JLabel lblInitial = new JLabel("Initial Commit:*");
+		lblInitial.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInitial.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblInitial.setBounds(39, 65, 125, 33);
+		lblInitial.setBounds(58, 56, 125, 33);
 		contentPane.add(lblInitial);
 		
 		textFieldInitial = new JTextField();
+		textFieldInitial.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldInitial.setFont(new Font("Cambria", Font.PLAIN, 16));
 		textFieldInitial.setToolTipText("Report the initial commit");
-		textFieldInitial.setBounds(166, 65, 135, 33);
+		textFieldInitial.setBounds(197, 56, 370, 33);
 		contentPane.add(textFieldInitial);
 		textFieldInitial.setColumns(10);
 		
 		JLabel lblFinal = new JLabel("Final Commit:");
+		lblFinal.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFinal.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblFinal.setBounds(337, 65, 115, 33);
+		lblFinal.setBounds(59, 115, 115, 33);
 		contentPane.add(lblFinal);
 		
 		textFieldFinal = new JTextField();
+		textFieldFinal.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldFinal.setFont(new Font("Cambria", Font.PLAIN, 16));
 		textFieldFinal.setToolTipText("Report the final commit");
-		textFieldFinal.setBounds(452, 65, 135, 33);
+		textFieldFinal.setBounds(197, 115, 370, 33);
 		contentPane.add(textFieldFinal);
 		textFieldFinal.setColumns(10);
 		
 		JLabel lblQueries = new JLabel("Queries:*");
+		lblQueries.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQueries.setToolTipText("Queries to be searched");
 		lblQueries.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblQueries.setBounds(57, 161, 75, 33);
+		lblQueries.setBounds(78, 170, 75, 33);
 		contentPane.add(lblQueries);
 		
 		JCheckBox chckbxForChanges = new JCheckBox("For Changes");
+		chckbxForChanges.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxForChanges.setToolTipText("Queries for change");
 		chckbxForChanges.setFont(new Font("Cambria", Font.PLAIN, 18));
-		chckbxForChanges.setBounds(152, 161, 125, 33);
+		chckbxForChanges.setBounds(173, 170, 125, 33);
 		contentPane.add(chckbxForChanges);
 		
 		JCheckBox chckbxForAuthor = new JCheckBox("For Author");
+		chckbxForAuthor.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxForAuthor.setToolTipText("Queries for author");
 		chckbxForAuthor.setFont(new Font("Cambria", Font.PLAIN, 18));
-		chckbxForAuthor.setBounds(308, 161, 120, 33);
+		chckbxForAuthor.setBounds(329, 170, 120, 33);
 		contentPane.add(chckbxForAuthor);
 		
 		JCheckBox chckbxForFiles = new JCheckBox("For Files");
+		chckbxForFiles.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxForFiles.setToolTipText("Queries for files");
 		chckbxForFiles.setFont(new Font("Cambria", Font.PLAIN, 18));
-		chckbxForFiles.setBounds(454, 161, 100, 33);
+		chckbxForFiles.setBounds(475, 170, 100, 33);
 		contentPane.add(chckbxForFiles);
 		
 		ButtonGroup group1 = new ButtonGroup();
@@ -134,6 +147,13 @@ public class CommitScreen extends JFrame {
 					JOptionPane.showMessageDialog(null, "Report the initial commit", "Attention", JOptionPane.WARNING_MESSAGE);
 				} else if (group1.isSelected(null)) {
 					JOptionPane.showMessageDialog(null, "Report the queries to be searched", "Attention", JOptionPane.WARNING_MESSAGE);
+				} else {
+					FirstScreen firstScreen = new FirstScreen();
+					if (chckbxForChanges.isSelected()) {
+						// repository.changeFromCommit(String.valueOf(firstScreen.getTextFieldURL()));
+						System.out.println("Cheguei nesta budega!");
+						System.out.println(firstScreen.getTextFieldURL());
+					}
 				}
 			}
 		});

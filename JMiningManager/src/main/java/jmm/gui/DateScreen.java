@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
 import jmm.common.JMMRepository;
+import javax.swing.SwingConstants;
 
 public class DateScreen extends JFrame {
 
@@ -37,6 +38,7 @@ public class DateScreen extends JFrame {
 			public void run() {
 				try {
 					DateScreen frame = new DateScreen(null);
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,6 +51,7 @@ public class DateScreen extends JFrame {
 	 * Create the frame.
 	 */
 	public DateScreen(JMMRepository repository) {
+		setResizable(false);
 		this.repository = repository;
 		
 		setFont(null);
@@ -63,42 +66,50 @@ public class DateScreen extends JFrame {
 		setIconImage(logo.getImage());
 		
 		JLabel lblInitial = new JLabel("Initial Date:*");
+		lblInitial.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInitial.setFont(new Font("Cambria", Font.PLAIN, 18));
 		lblInitial.setBounds(46, 65, 100, 33);
 		contentPane.add(lblInitial);
 		
 		JDateChooser dateChooserInitial = new JDateChooser();
+		dateChooserInitial.setToolTipText("Report the initial date");
 		dateChooserInitial.setBounds(152, 65, 135, 33);
 		contentPane.add(dateChooserInitial);
 		
 		JLabel lblFinal = new JLabel("Final Date:");
+		lblFinal.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFinal.setFont(new Font("Cambria", Font.PLAIN, 18));
 		lblFinal.setBounds(332, 65, 96, 33);
 		contentPane.add(lblFinal);
 		
 		JDateChooser dateChooserFinal = new JDateChooser();
+		dateChooserFinal.setToolTipText("Report the final date");
 		dateChooserFinal.setBounds(438, 65, 135, 33);
 		contentPane.add(dateChooserFinal);
 		
 		JLabel lblQueries = new JLabel("Queries:*");
+		lblQueries.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQueries.setToolTipText("Queries to be searched");
 		lblQueries.setFont(new Font("Cambria", Font.PLAIN, 18));
 		lblQueries.setBounds(57, 161, 75, 33);
 		contentPane.add(lblQueries);
 		
 		JCheckBox chckbxForChanges = new JCheckBox("For Changes");
+		chckbxForChanges.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxForChanges.setToolTipText("Queries for change");
 		chckbxForChanges.setFont(new Font("Cambria", Font.PLAIN, 18));
 		chckbxForChanges.setBounds(152, 161, 125, 33);
 		contentPane.add(chckbxForChanges);
 		
 		JCheckBox chckbxForAuthor = new JCheckBox("For Author");
+		chckbxForAuthor.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxForAuthor.setToolTipText("Queries for author");
 		chckbxForAuthor.setFont(new Font("Cambria", Font.PLAIN, 18));
 		chckbxForAuthor.setBounds(308, 161, 120, 33);
 		contentPane.add(chckbxForAuthor);
 		
 		JCheckBox chckbxForFiles = new JCheckBox("For Files");
+		chckbxForFiles.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxForFiles.setToolTipText("Queries for files");
 		chckbxForFiles.setFont(new Font("Cambria", Font.PLAIN, 18));
 		chckbxForFiles.setBounds(454, 161, 100, 33);

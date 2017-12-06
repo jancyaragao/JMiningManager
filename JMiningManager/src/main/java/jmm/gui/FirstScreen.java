@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import jmm.common.JMMRepository;
@@ -27,7 +28,9 @@ public class FirstScreen extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textFieldRepository;
+	private JTextField textFieldURL;
+	private JTextField textFieldUsername;
+	private JTextField textFieldPassword;
 
 	/**
 	 * Launch the application.
@@ -50,6 +53,7 @@ public class FirstScreen extends JFrame {
 	 * Create the frame.
 	 */
 	public FirstScreen() {
+		setResizable(false);
 		setFont(null);
 		setTitle("JMM - Java Mining Manager");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,21 +66,24 @@ public class FirstScreen extends JFrame {
 		setIconImage(logo.getImage());
 		
 		JLabel lblVersion = new JLabel("Which version control system?*");
+		lblVersion.setHorizontalAlignment(SwingConstants.CENTER);
 		lblVersion.setToolTipText("Select version control system");
 		lblVersion.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblVersion.setBounds(50, 50, 250, 33);
+		lblVersion.setBounds(50, 25, 250, 33);
 		contentPane.add(lblVersion);
 		
 		JRadioButton rdbtnGit = new JRadioButton("Git");
+		rdbtnGit.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnGit.setToolTipText("Git version control system");
 		rdbtnGit.setFont(new Font("Cambria", Font.PLAIN, 18));
-		rdbtnGit.setBounds(359, 55, 55, 23);
+		rdbtnGit.setBounds(359, 30, 55, 23);
 		contentPane.add(rdbtnGit);
 		
 		JRadioButton rdbtnSvn = new JRadioButton("SVN");
+		rdbtnSvn.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnSvn.setToolTipText("SVN version control system");
 		rdbtnSvn.setFont(new Font("Cambria", Font.PLAIN, 18));
-		rdbtnSvn.setBounds(459, 55, 69, 23);
+		rdbtnSvn.setBounds(459, 30, 69, 23);
 		contentPane.add(rdbtnSvn);
 		
 		ButtonGroup group1 = new ButtonGroup();
@@ -84,39 +91,44 @@ public class FirstScreen extends JFrame {
 		group1.add(rdbtnGit);
 		
 		JLabel lblSearch = new JLabel("Search by:*");
+		lblSearch.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSearch.setToolTipText("Select how to search");
 		lblSearch.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblSearch.setBounds(129, 113, 90, 23);
+		lblSearch.setBounds(128, 75, 90, 23);
 		contentPane.add(lblSearch);
 		
 		JRadioButton rdbtnCommit = new JRadioButton("Commit");
+		rdbtnCommit.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnCommit.setToolTipText("Search by commit");
 		rdbtnCommit.setFont(new Font("Cambria", Font.PLAIN, 18));
-		rdbtnCommit.setBounds(338, 113, 86, 23);
+		rdbtnCommit.setBounds(337, 75, 86, 23);
 		contentPane.add(rdbtnCommit);
 		
 		JRadioButton rdbtnDate = new JRadioButton("Date");
+		rdbtnDate.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnDate.setToolTipText("Search by date");
 		rdbtnDate.setFont(new Font("Cambria", Font.PLAIN, 18));
-		rdbtnDate.setBounds(456, 113, 61, 23);
+		rdbtnDate.setBounds(455, 75, 61, 23);
 		contentPane.add(rdbtnDate);
 		
 		ButtonGroup group2 = new ButtonGroup();
 		group2.add(rdbtnCommit);
 		group2.add(rdbtnDate);
 		
-		JLabel lblRepository = new JLabel("Repository:*");
-		lblRepository.setToolTipText("Repository to search");
-		lblRepository.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblRepository.setBounds(123, 168, 100, 35);
-		contentPane.add(lblRepository);
+		JLabel lblURL = new JLabel("URL:*");
+		lblURL.setHorizontalAlignment(SwingConstants.CENTER);
+		lblURL.setToolTipText("Repository path to search for");
+		lblURL.setFont(new Font("Cambria", Font.PLAIN, 18));
+		lblURL.setBounds(149, 119, 50, 35);
+		contentPane.add(lblURL);
 		
-		textFieldRepository = new JTextField();
-		textFieldRepository.setToolTipText("Report the repository");
-		textFieldRepository.setFont(new Font("Cambria", Font.PLAIN, 14));
-		textFieldRepository.setBounds(317, 171, 250, 33);
-		contentPane.add(textFieldRepository);
-		textFieldRepository.setColumns(10);
+		textFieldURL = new JTextField();
+		textFieldURL.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldURL.setToolTipText("Report the repository");
+		textFieldURL.setFont(new Font("Cambria", Font.PLAIN, 18));
+		textFieldURL.setBounds(317, 122, 250, 33);
+		contentPane.add(textFieldURL);
+		textFieldURL.setColumns(10);
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
@@ -124,8 +136,38 @@ public class FirstScreen extends JFrame {
 				dispose();
 			}
 		});
+		
+		JLabel lblUsername = new JLabel("Username:");
+		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
+		lblUsername.setToolTipText("Repository username");
+		lblUsername.setFont(new Font("Cambria", Font.PLAIN, 18));
+		lblUsername.setBounds(118, 165, 100, 35);
+		contentPane.add(lblUsername);
+		
+		textFieldUsername = new JTextField();
+		textFieldUsername.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldUsername.setToolTipText("Report the repository username");
+		textFieldUsername.setFont(new Font("Cambria", Font.PLAIN, 18));
+		textFieldUsername.setBounds(317, 168, 250, 33);
+		contentPane.add(textFieldUsername);
+		textFieldUsername.setColumns(10);
+		
+		JLabel lblPassword = new JLabel("Password:");
+		lblPassword.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPassword.setToolTipText("Repository password");
+		lblPassword.setFont(new Font("Cambria", Font.PLAIN, 18));
+		lblPassword.setBounds(118, 213, 100, 35);
+		contentPane.add(lblPassword);
+		
+		textFieldPassword = new JTextField();
+		textFieldPassword.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldPassword.setToolTipText("Report the repository password");
+		textFieldPassword.setFont(new Font("Cambria", Font.PLAIN, 18));
+		textFieldPassword.setBounds(317, 214, 250, 33);
+		contentPane.add(textFieldPassword);
+		textFieldPassword.setColumns(10);
 		btnCancel.setFont(new Font("Cambria", Font.PLAIN, 18));
-		btnCancel.setBounds(150, 262, 135, 23);
+		btnCancel.setBounds(150, 276, 135, 23);
 		contentPane.add(btnCancel);
 		
 		JButton btnNext = new JButton("Next");
@@ -135,34 +177,46 @@ public class FirstScreen extends JFrame {
 					JOptionPane.showMessageDialog(null, "Select version control system", "Attention", JOptionPane.WARNING_MESSAGE);
 				} else if (group2.isSelected(null)) {
 					JOptionPane.showMessageDialog(null, "Select how to search", "Attention", JOptionPane.WARNING_MESSAGE);
-				} else if (textFieldRepository.getText().length() == 0) {
+				} else if (textFieldURL.getText().length() == 0) {
 					JOptionPane.showMessageDialog(null, "Report the repository", "Attention", JOptionPane.WARNING_MESSAGE);
 				} else {
 					JMMRepository repository = null;
-					
 					if (rdbtnGit.isSelected()) {
-						repository = new JMMGit(textFieldRepository.getText(), "", "");
+						repository = new JMMGit(textFieldURL.getText(), textFieldUsername.getText(), textFieldPassword.getText());
 					}
 					else {
-						repository = new JMMSVN(textFieldRepository.getText(), "", "");
+						repository = new JMMSVN(textFieldURL.getText(), textFieldUsername.getText(), textFieldPassword.getText());
 					}
 					
 					if (rdbtnCommit.isSelected()) {
 						CommitScreen commitScreen = new CommitScreen(repository);
 						commitScreen.setVisible(true);
-						dispose();
+						setVisible(false);
 					} else if (rdbtnDate.isSelected()) {
 						DateScreen dateScreen = new DateScreen(repository);
 						dateScreen.setVisible(true);
-						dispose();
+						setVisible(false);
 					}
 				}
 			}
 		});
 		
 		btnNext.setFont(new Font("Cambria", Font.PLAIN, 18));
-		btnNext.setBounds(351, 262, 135, 23);
+		btnNext.setBounds(351, 276, 135, 23);
 		contentPane.add(btnNext);
 		
 	}
+
+	public String getTextFieldURL() {
+		return textFieldURL.getText();
+	}
+
+	public String getTextFieldUsername() {
+		return textFieldUsername.getText();
+	}
+
+	public String getTextFieldPassword() {
+		return textFieldPassword.getText();
+	}
+
 }
