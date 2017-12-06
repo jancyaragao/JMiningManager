@@ -2,6 +2,8 @@ package jmm.gui;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -11,14 +13,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import jmm.common.JMMRepository;
-
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
+import jmm.model.Author;
+import jmm.model.Change;
 
 public class CommitScreen extends JFrame {
 
@@ -29,8 +30,6 @@ public class CommitScreen extends JFrame {
 	private JPanel contentPane;
 	private JTextField textFieldInitial;
 	private JTextField textFieldFinal;
-
-	private JMMRepository repository;
 	
 	/**
 	 * Launch the application.
@@ -54,8 +53,6 @@ public class CommitScreen extends JFrame {
 	 */
 	public CommitScreen(JMMRepository repository) {
 		setResizable(false);
-		this.repository = repository;
-		
 		setFont(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("JMM - Java Mining Manager");
@@ -66,6 +63,8 @@ public class CommitScreen extends JFrame {
 		contentPane.setLayout(null);
 		ImageIcon logo = new ImageIcon("src/main/java/jmm/logo/jmm_logo.png");
 		setIconImage(logo.getImage());
+		
+		setLocationRelativeTo(null);
 		
 		JLabel lblInitial = new JLabel("Initial Commit:*");
 		lblInitial.setHorizontalAlignment(SwingConstants.CENTER);
@@ -148,11 +147,15 @@ public class CommitScreen extends JFrame {
 				} else if (group1.isSelected(null)) {
 					JOptionPane.showMessageDialog(null, "Report the queries to be searched", "Attention", JOptionPane.WARNING_MESSAGE);
 				} else {
-					FirstScreen firstScreen = new FirstScreen();
 					if (chckbxForChanges.isSelected()) {
-						// repository.changeFromCommit(String.valueOf(firstScreen.getTextFieldURL()));
-						System.out.println("Cheguei nesta budega!");
-						System.out.println(firstScreen.getTextFieldURL());
+						Change c = repository.changeFromCommit(textFieldInitial.getText());
+						ResultScreen rs = new ResultScreen(c);
+						rs.setVisible(true);
+					}
+					else if (chckbxForAuthor.isSelected()) {
+						Author a = repository.authorFromCommit(textFieldInitial.getText());
+						ResultScreen rs = new ResultScreen(a);
+						rs.setVisible(true);
 					}
 				}
 			}
