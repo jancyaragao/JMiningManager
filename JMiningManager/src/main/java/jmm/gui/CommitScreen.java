@@ -152,11 +152,11 @@ public class CommitScreen extends JFrame {
 						ResultScreen rs = new ResultScreen(c);
 						rs.setVisible(true);
 					}
-					else if (chckbxForAuthor.isSelected()) {
-						Author a = repository.authorFromCommit(textFieldInitial.getText());
-						ResultScreen rs = new ResultScreen(a);
-						rs.setVisible(true);
-					}
+//					else if (chckbxForAuthor.isSelected()) {
+//						Author a = repository.authorFromCommit(textFieldInitial.getText());
+//						ResultScreen rs = new ResultScreen(a);
+//						rs.setVisible(true);
+//					}
 				}
 			}
 		});
