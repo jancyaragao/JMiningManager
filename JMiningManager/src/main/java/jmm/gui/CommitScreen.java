@@ -151,7 +151,8 @@ public class CommitScreen extends JFrame {
 						
 						if (textFieldFinal.getText().length() == 0) {
 							Change c = repository.changeFromCommit(textFieldInitial.getText());
-							ResultScreen rs = new ResultScreen(c);
+							ResultScreen rs = new ResultScreen();
+							rs.resultScreenChange(c);
 							rs.setVisible(true);
 						} /** else {
 							List<Change> changes = repository.changesBetweenCommits(textFieldInitial.getText(), textFieldFinal.getText());
@@ -163,7 +164,8 @@ public class CommitScreen extends JFrame {
 					
 						if (textFieldFinal.getText().length() == 0) {
 							Author a = repository.authorFromCommit(textFieldInitial.getText());
-							ResultScreen rs = new ResultScreen(a);
+							ResultScreen rs = new ResultScreen();
+							rs.resultScreenAuthor(a);
 							rs.setVisible(true);
 						} /** else {
 							List<Author> authors = repository.authorsBetweenCommits(textFieldInitial.getText(), textFieldFinal.getText(), false);
@@ -174,11 +176,13 @@ public class CommitScreen extends JFrame {
 					} else if (chckbxForFiles.isSelected()) {
 						if (textFieldFinal.getText().length() == 0) {
 							List<ChangedFile> changedsFiles = repository.filesFromCommit(textFieldInitial.getText());
-							ResultScreen rs = new ResultScreen(changedsFiles);
+							ResultScreen rs = new ResultScreen();
+							rs.resultScreenListFiles(changedsFiles);
 							rs.setVisible(true);
 						} else {
 							List<ChangedFile> changedsFiles = repository.filesBetweenCommits(textFieldInitial.getText(), textFieldFinal.getText());
-							ResultScreen rs = new ResultScreen(changedsFiles);
+							ResultScreen rs = new ResultScreen();
+							rs.resultScreenListFiles(changedsFiles);
 							rs.setVisible(true);
 						}
 						
