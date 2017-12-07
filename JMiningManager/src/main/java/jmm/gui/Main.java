@@ -10,7 +10,7 @@ import jmm.model.ChangedFile;
 public class Main {
 
 	public static void main(String[] args) {
-		testChangeFromCommit();
+		testAuthorFromCommit();
 	}
 
 	public static void testFilesFromCommit() {
