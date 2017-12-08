@@ -64,28 +64,27 @@ public class ResultScreen extends JFrame {
 		add(new JScrollPane(table));
 	}
 
-//	public ResultScreen(List<Change> changes) {
-//		init();
-//
-//		String[] columns = new String[] { "Author Name", "Author E-mail", "Commit Date", "Commit Code" };
-//
-//		Object[][] rows = new Object[changes.size()][];
-//
-//		for (int i = 0; i < rows.length; i++) {
-//			Change c = changes.get(i);
-//			rows[i] = new Object[] { c.getAuthor().getName(), c.getAuthor().getEmail(),
-//					DateUtil.converterDateParaString(c.getDate()), c.getCommit() };
-//		}
-//
-//		Font f = new Font("Cambria", Font.PLAIN, 18);
-//
-//		JTable table = new JTable(rows, columns);
-//		table.setFont(f);
-//		table.getTableHeader().setFont(f);
-//		table.setRowHeight(30);
-//		table.setEnabled(false);
-//		add(new JScrollPane(table));
-//	}
+	public void resultScreenListChange(List<Change> changes) {
+
+		String[] columns = new String[] { "Author Name", "Author E-mail", "Commit Date", "Commit Code" };
+
+		Object[][] rows = new Object[changes.size()][];
+
+		for (int i = 0; i < rows.length; i++) {
+			Change c = changes.get(i);
+			rows[i] = new Object[] { c.getAuthor().getName(), c.getAuthor().getEmail(),
+					DateUtil.converterDateParaString(c.getDate()), c.getCommit() };
+		}
+
+		Font f = new Font("Cambria", Font.PLAIN, 18);
+
+		JTable table = new JTable(rows, columns);
+		table.setFont(f);
+		table.getTableHeader().setFont(f);
+		table.setRowHeight(30);
+		table.setEnabled(false);
+		add(new JScrollPane(table));
+	}
 
 	public void resultScreenAuthor(Author a) {
 		String[] columns = new String[] { "Author Name", "Author E-mail", "Commit Date", "Commit Code" };

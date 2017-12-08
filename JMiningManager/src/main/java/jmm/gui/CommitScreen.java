@@ -1,9 +1,7 @@
 package jmm.gui;
 
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -60,38 +58,41 @@ public class CommitScreen extends JFrame {
 		setFont(null);
 		setTitle("JMM - Java Mining Manager");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		setBounds(325, 125, 640, 360);
+ 		contentPane = new JPanel();
+ 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+ 		setContentPane(contentPane);
+ 		contentPane.setLayout(null);
 		ImageIcon logo = new ImageIcon("src/image/jmm_logo.png");
 		setIconImage(logo.getImage());
+		
+		setLocationRelativeTo(null);
 		
 		JLabel lblInitial = new JLabel("Initial Commit:*");
 		lblInitial.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInitial.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblInitial.setBounds(216, 136, 125, 33);
+		lblInitial.setBounds(58, 56, 125, 33);
 		contentPane.add(lblInitial);
 		
 		textFieldInitial = new JTextField();
 		textFieldInitial.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldInitial.setFont(new Font("Cambria", Font.PLAIN, 16));
 		textFieldInitial.setToolTipText("Report the initial commit");
-		textFieldInitial.setBounds(355, 136, 370, 33);
+		textFieldInitial.setBounds(197, 56, 370, 33);
 		contentPane.add(textFieldInitial);
 		textFieldInitial.setColumns(10);
 		
 		JLabel lblFinal = new JLabel("Final Commit:");
 		lblFinal.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFinal.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblFinal.setBounds(217, 195, 115, 33);
+		lblFinal.setBounds(59, 115, 115, 33);
 		contentPane.add(lblFinal);
 		
 		textFieldFinal = new JTextField();
 		textFieldFinal.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldFinal.setFont(new Font("Cambria", Font.PLAIN, 16));
 		textFieldFinal.setToolTipText("Report the final commit");
-		textFieldFinal.setBounds(355, 195, 370, 33);
+		textFieldFinal.setBounds(197, 115, 370, 33);
 		contentPane.add(textFieldFinal);
 		textFieldFinal.setColumns(10);
 		
@@ -99,7 +100,7 @@ public class CommitScreen extends JFrame {
 		lblQueries.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQueries.setToolTipText("Queries to be searched");
 		lblQueries.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblQueries.setBounds(236, 250, 75, 33);
+		lblQueries.setBounds(78, 170, 75, 33);
 		contentPane.add(lblQueries);
 		
 		JCheckBox chckbxForChanges = new JCheckBox("For Changes");
@@ -107,21 +108,21 @@ public class CommitScreen extends JFrame {
 		chckbxForChanges.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxForChanges.setToolTipText("Queries for change");
 		chckbxForChanges.setFont(new Font("Cambria", Font.PLAIN, 18));
-		chckbxForChanges.setBounds(331, 250, 125, 33);
+		chckbxForChanges.setBounds(173, 170, 125, 33);
 		contentPane.add(chckbxForChanges);
 		
 		JCheckBox chckbxForAuthor = new JCheckBox("For Author");
 		chckbxForAuthor.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxForAuthor.setToolTipText("Queries for author");
 		chckbxForAuthor.setFont(new Font("Cambria", Font.PLAIN, 18));
-		chckbxForAuthor.setBounds(487, 250, 120, 33);
+		chckbxForAuthor.setBounds(329, 170, 120, 33);
 		contentPane.add(chckbxForAuthor);
 		
 		JCheckBox chckbxForFiles = new JCheckBox("For Files");
 		chckbxForFiles.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxForFiles.setToolTipText("Queries for files");
 		chckbxForFiles.setFont(new Font("Cambria", Font.PLAIN, 18));
-		chckbxForFiles.setBounds(633, 250, 100, 33);
+		chckbxForFiles.setBounds(475, 170, 100, 33);
 		contentPane.add(chckbxForFiles);
 		
 		ButtonGroup group1 = new ButtonGroup();
@@ -138,7 +139,7 @@ public class CommitScreen extends JFrame {
 			}
 		});
 		btnBack.setFont(new Font("Cambria", Font.PLAIN, 18));
-		btnBack.setBounds(308, 342, 135, 23);
+		btnBack.setBounds(150, 262, 135, 23);
 		contentPane.add(btnBack);
 		
 		JButton btnSearch = new JButton("Search");
@@ -154,11 +155,12 @@ public class CommitScreen extends JFrame {
 							ResultScreen rs = new ResultScreen();
 							rs.resultScreenChange(c);
 							rs.setVisible(true);
-						} /** else {
+						} else {
 							List<Change> changes = repository.changesBetweenCommits(textFieldInitial.getText(), textFieldFinal.getText());
-							ResultScreen rs = new ResultScreen(changes);
+							ResultScreen rs = new ResultScreen();
+							rs.resultScreenListChange(changes);
 							rs.setVisible(true);
-						} **/
+						}
 						
 					} else if (chckbxForAuthor.isSelected()) {
 					
@@ -167,11 +169,12 @@ public class CommitScreen extends JFrame {
 							ResultScreen rs = new ResultScreen();
 							rs.resultScreenAuthor(a);
 							rs.setVisible(true);
-						} /** else {
+						}  else {
 							List<Author> authors = repository.authorsBetweenCommits(textFieldInitial.getText(), textFieldFinal.getText(), false);
-							ResultScreen rs = new ResultScreen(authors);
+							ResultScreen rs = new ResultScreen();
+							rs.resultScreenListAuthor(authors);
 							rs.setVisible(true);
-						} **/
+						} 
 						
 					} else if (chckbxForFiles.isSelected()) {
 						if (textFieldFinal.getText().length() == 0) {
@@ -191,13 +194,9 @@ public class CommitScreen extends JFrame {
 			}
 		});
 		btnSearch.setFont(new Font("Cambria", Font.PLAIN, 18));
-		btnSearch.setBounds(509, 342, 135, 23);
+		btnSearch.setBounds(351, 262, 135, 23);
 		contentPane.add(btnSearch);
 		
-		setLocationRelativeTo(null);
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		setPreferredSize(new Dimension(screenSize.width * 2 / 3, screenSize.height * 2 / 3));
-		pack();
 	}
 
 }
