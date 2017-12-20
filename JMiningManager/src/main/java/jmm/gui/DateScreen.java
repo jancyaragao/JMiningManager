@@ -98,7 +98,7 @@ public class DateScreen extends JFrame {
 		lblQueries.setBounds(69, 152, 75, 33);
 		contentPane.add(lblQueries);
 
-		JCheckBox chckbxForChanges = new JCheckBox("For Changes");
+		JCheckBox chckbxForChanges = new JCheckBox("Changes");
 		chckbxForChanges.setSelected(true);
 		chckbxForChanges.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxForChanges.setToolTipText("Queries for change");
@@ -106,14 +106,14 @@ public class DateScreen extends JFrame {
 		chckbxForChanges.setBounds(164, 152, 125, 33);
 		contentPane.add(chckbxForChanges);
 
-		JCheckBox chckbxForAuthor = new JCheckBox("For Author");
+		JCheckBox chckbxForAuthor = new JCheckBox("Author");
 		chckbxForAuthor.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxForAuthor.setToolTipText("Queries for author");
 		chckbxForAuthor.setFont(new Font("Cambria", Font.PLAIN, 18));
 		chckbxForAuthor.setBounds(320, 152, 120, 33);
 		contentPane.add(chckbxForAuthor);
 
-		JCheckBox chckbxForFiles = new JCheckBox("For Files");
+		JCheckBox chckbxForFiles = new JCheckBox("Files");
 		chckbxForFiles.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxForFiles.setToolTipText("Queries for files");
 		chckbxForFiles.setFont(new Font("Cambria", Font.PLAIN, 18));

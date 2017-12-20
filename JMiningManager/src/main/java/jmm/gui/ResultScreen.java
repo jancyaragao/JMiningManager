@@ -52,7 +52,7 @@ public class ResultScreen extends JFrame {
 		String[] columns = new String[] { "Author Name", "Author E-mail", "Commit Date", "Commit Code" };
 
 		Object[][] rows = new Object[][] { { c.getAuthor().getName(), c.getAuthor().getEmail(),
-				DateUtil.converterDateParaString(c.getDate()), c.getCommit() } };
+				DateUtil.dateToString(c.getDate()), c.getCommit() } };
 
 		Font f = new Font("Cambria", Font.PLAIN, 18);
 
@@ -73,7 +73,7 @@ public class ResultScreen extends JFrame {
 		for (int i = 0; i < rows.length; i++) {
 			Change c = changes.get(i);
 			rows[i] = new Object[] { c.getAuthor().getName(), c.getAuthor().getEmail(),
-					DateUtil.converterDateParaString(c.getDate()), c.getCommit() };
+					DateUtil.dateToString(c.getDate()), c.getCommit() };
 		}
 
 		Font f = new Font("Cambria", Font.PLAIN, 18);

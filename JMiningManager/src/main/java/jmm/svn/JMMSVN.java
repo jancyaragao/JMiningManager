@@ -1,12 +1,9 @@
 package jmm.svn;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNLogEntry;
@@ -18,7 +15,6 @@ import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
-import jmm.common.DateUtil;
 import jmm.common.JMMRepository;
 import jmm.model.Author;
 import jmm.model.Change;
@@ -28,197 +24,197 @@ import jmm.model.FileChangeType;
 public class JMMSVN implements JMMRepository {
 
 	private SVNRepository repository;
-	
+
 	public JMMSVN(String url, String user, String password) {
-		
 		DAVRepositoryFactory.setup();
-		
+
 		try {
 			repository = SVNRepositoryFactory.create(SVNURL.parseURIEncoded(url));
 		} catch (SVNException e) {
 			e.printStackTrace();
 		}
-		
+
 		ISVNAuthenticationManager authenticator = SVNWCUtil.createDefaultAuthenticationManager(user, password.toCharArray());
 		repository.setAuthenticationManager(authenticator);
-		
-	}
-	
-	public Collection<?> searchByRevision(String r_initial, String r_final) throws NumberFormatException, SVNException {
-		return searchByRevision(Long.parseLong(r_initial), Long.parseLong(r_initial));
-	}
-	
-	public Collection<?> searchByRevision(long initialRevision, long finalRevision) throws SVNException {
-		
-		Collection<?> revisions = repository.log(new String[] { "" }, null, initialRevision, finalRevision, true, true);
-		return revisions;
-		
-	}
-	
-	public Collection<?> searchByDate(String initialDate, String finalDate) throws SVNException {
-		
-		Date start = DateUtil.converterStringParaDate(initialDate);
-		Date end = DateUtil.converterStringParaDate(finalDate);
-		
-		long initialReviosion = repository.getDatedRevision(start);
-		long finalReviosion = repository.getDatedRevision(end);
-		
-		Collection<?> reviosions = repository.log(new String[] { "" }, null, initialReviosion, finalReviosion, true, true);
-		return reviosions;
-		
-	}
-	
-	// TODO: Adaptar para usar apenas uma lista (economizar memória).
-	public List<String> listFiles(String id, FileChangeType[] types) throws SVNException {
-		
-		Collection<?> revisions = searchByRevision(1000, 1050);
-		
-		ArrayList<String> added = new ArrayList<>();
-		ArrayList<String> removed = new ArrayList<>();
-		ArrayList<String> modified = new ArrayList<>();
-		ArrayList<String> replaced = new ArrayList<>();
-		
-		for (Object objeto : revisions) {
-			SVNLogEntry rev = (SVNLogEntry) objeto;
-			Collection<SVNLogEntryPath> arquivos = rev.getChangedPaths().values();
-			
-			for (SVNLogEntryPath arq : arquivos) {
-				
-				char aux = arq.getType();
-				
-				if (aux == 'M' && !modified.contains(arq.getPath())) {
-					modified.add(arq.getPath());
-				} else if (aux == 'A' && !added.contains(arq.getPath())) {
-					added.add(arq.getPath());
-				} else if (aux == 'D' && !removed.contains(arq.getPath())) {
-					removed.add(arq.getPath());
-				} else if (aux == 'R' && !replaced.contains(arq.getPath())) {
-					replaced.add(arq.getPath());
-				}
-				
-			}
-			
-		}
-		
-		List<String> result = new ArrayList<>();
-		List<FileChangeType> tipos = Arrays.asList(types);
-
-		if (tipos.contains(FileChangeType.ADDED)) {
-			result.addAll(added);
-		}
-
-		if (tipos.contains(FileChangeType.DELETED)) {
-			result.addAll(removed);
-		}
-
-		if (tipos.contains(FileChangeType.MODIFIED)) {
-			result.addAll(modified);
-			result.addAll(replaced);
-		}
-
-		return result;
-		
-	}
-	
-	public String listAuthorByCommit(String d1, String d2) throws SVNException {
-		
-		Collection<?> revisions = searchByDate("12/11/2001", "21/11/2001");
-		Map<String, Integer> count = new HashMap<String, Integer>();
-		
-		for (Object object : revisions) {
-			SVNLogEntry rev = (SVNLogEntry) object;
-			String author = rev.getAuthor();
-			
-			Integer iAuthor = count.get(author);
-			
-			if (iAuthor == null) {
-				count.put(author, 1);
-			} else {
-				count.put(author, iAuthor + 1);
-			}
-			
-		}
-		
-		int number_changes = 0;
-		String author_more_modifications = "";
-		
-		for (String author : count.keySet()) {
-			Integer i = count.get(author);
-			
-			if (i > number_changes) {
-				number_changes = i;
-				author_more_modifications = author;
-			}
-			
-		}
-		
-		return author_more_modifications + number_changes;
 	}
 
 	@Override
 	public Change changeFromCommit(String commit_code) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Change> c = changesBetweenCommits(commit_code, commit_code);
+		return c.isEmpty() ? null : c.get(0);
 	}
 
 	@Override
 	public List<Change> changesBetweenCommits(String initial_commit, String final_commit) {
-		// TODO Auto-generated method stub
-		return null;
+		long initial_revision = Long.parseLong(initial_commit);
+		long final_revision = Long.parseLong(final_commit);
+
+		Collection<?> logs = null;
+		List<Change> changes = new ArrayList<Change>();
+
+		try {
+			logs = repository.log(new String[] { "" }, null, initial_revision, final_revision, true, true);
+		} catch (SVNException e) {
+			e.printStackTrace();
+		}
+
+		if (logs != null) {
+			for (Object elem : logs) {
+				SVNLogEntry r = (SVNLogEntry) elem;
+
+				Author a = new Author();
+				a.setChanges(null); // TODO: Vale a pena implementar isso agora?
+				a.setEmail(""); // TODO: Sem e-mail para SVN?
+				a.setName(r.getAuthor());
+
+				Change c = new Change();
+				c.setAuthor(a);
+				c.setCommit(String.valueOf(r.getRevision()));
+				c.setDate(r.getDate());
+				c.setFiles(null); // TODO: Vale a pena implementar isso agora?
+
+				changes.add(c);
+			}
+		}
+
+		return changes;
 	}
 
 	@Override
 	public List<Change> changesBetweenDates(Date initial_date, Date final_date) {
-		// TODO Auto-generated method stub
-		return null;
+		long initial_revision = 0;
+		long final_revision = 0;
+
+		try {
+			initial_revision = repository.getDatedRevision(initial_date);
+			final_revision = repository.getDatedRevision(final_date);
+		} catch (SVNException e) {
+			e.printStackTrace();
+		}
+
+		return changesBetweenCommits(String.valueOf(initial_revision), String.valueOf(final_revision));
 	}
 
 	@Override
 	public Author authorFromCommit(String commit_code) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Author> a = authorsBetweenCommits(commit_code, commit_code, false);
+		return a.isEmpty() ? null : a.get(0);
 	}
 
 	@Override
 	public List<Author> authorsBetweenCommits(String initial_commit, String final_commit, boolean sorted) {
-		// TODO Auto-generated method stub
-		return null;
+		long initial_revision = Long.parseLong(initial_commit);
+		long final_revision = Long.parseLong(final_commit);
+
+		Collection<?> logs = null;
+		List<Author> authors = new ArrayList<Author>();
+
+		try {
+			logs = repository.log(new String[] { "" }, null, initial_revision, final_revision, true, true);
+		} catch (SVNException e) {
+			e.printStackTrace();
+		}
+
+		if (logs != null) {
+			for (Object elem : logs) {
+				SVNLogEntry r = (SVNLogEntry) elem;
+
+				Author a = new Author();
+				a.setChanges(null); // TODO: Vale a pena implementar isso agora?
+				a.setEmail(""); // TODO: Sem e-mail para SVN?
+				a.setName(r.getAuthor());
+
+				authors.add(a);
+			}
+		}
+
+		return authors;
 	}
 
 	@Override
 	public List<Author> authorsBetweenDates(Date initial_date, Date final_date, boolean sorted) {
-		// TODO Auto-generated method stub
-		return null;
+		long initial_revision = 0;
+		long final_revision = 0;
+
+		try {
+			initial_revision = repository.getDatedRevision(initial_date);
+			final_revision = repository.getDatedRevision(final_date);
+		} catch (SVNException e) {
+			e.printStackTrace();
+		}
+
+		return authorsBetweenCommits(String.valueOf(initial_revision), String.valueOf(final_revision), sorted);
 	}
 
 	@Override
 	public List<ChangedFile> filesFromCommit(String commit_code) {
-		// TODO Auto-generated method stub
-		return null;
+		return filesBetweenCommits(commit_code, commit_code);
 	}
 
 	@Override
 	public List<ChangedFile> filesBetweenCommits(String initial_commit, String final_commit) {
-		// TODO Auto-generated method stub
-		return null;
+		long initial_revision = Long.parseLong(initial_commit);
+		long final_revision = Long.parseLong(final_commit);
+
+		Collection<?> logs = null;
+		List<ChangedFile> changed_files = new ArrayList<ChangedFile>();
+
+		try {
+			logs = repository.log(new String[] { "" }, null, initial_revision, final_revision, true, true);
+		} catch (SVNException e) {
+			e.printStackTrace();
+		}
+
+		if (logs != null) {
+			for (Object elem : logs) {
+				SVNLogEntry r = (SVNLogEntry) elem;
+
+				for (SVNLogEntryPath log_path : r.getChangedPaths().values()) {
+					ChangedFile cf = new ChangedFile();
+					char type = log_path.getType();
+
+					cf.setChanges(-1); // TODO: Vale a pena implementar isso agora?
+					cf.setPath(log_path.getPath());
+
+					if (type == 'M' || type == 'R')
+						cf.setType(FileChangeType.MODIFIED);
+					else if (type == 'A')
+						cf.setType(FileChangeType.ADDED);
+					else if (type == 'D')
+						cf.setType(FileChangeType.DELETED);
+
+					changed_files.add(cf);
+				}
+
+			}
+		}
+
+		return changed_files;
 	}
 
 	@Override
 	public List<ChangedFile> filesBetweenDates(Date initial_date, Date final_date) {
-		// TODO Auto-generated method stub
-		return null;
+		long initial_revision = 0;
+		long final_revision = 0;
+
+		try {
+			initial_revision = repository.getDatedRevision(initial_date);
+			final_revision = repository.getDatedRevision(final_date);
+		} catch (SVNException e) {
+			e.printStackTrace();
+		}
+
+		return filesBetweenCommits(String.valueOf(initial_revision), String.valueOf(final_revision));
 	}
 
 	@Override
 	public List<ChangedFile> filterFilesByChangeType(List<ChangedFile> files, FileChangeType[] types) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void closeJMMRepository() {
-		// TODO Auto-generated method stub
-		
+		repository.closeSession();
 	}
-	
+
 }

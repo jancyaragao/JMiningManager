@@ -103,7 +103,7 @@ public class CommitScreen extends JFrame {
 		lblQueries.setBounds(78, 170, 75, 33);
 		contentPane.add(lblQueries);
 		
-		JCheckBox chckbxForChanges = new JCheckBox("For Changes");
+		JCheckBox chckbxForChanges = new JCheckBox("Changes");
 		chckbxForChanges.setSelected(true);
 		chckbxForChanges.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxForChanges.setToolTipText("Queries for change");
@@ -111,14 +111,14 @@ public class CommitScreen extends JFrame {
 		chckbxForChanges.setBounds(173, 170, 125, 33);
 		contentPane.add(chckbxForChanges);
 		
-		JCheckBox chckbxForAuthor = new JCheckBox("For Author");
+		JCheckBox chckbxForAuthor = new JCheckBox("Authors");
 		chckbxForAuthor.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxForAuthor.setToolTipText("Queries for author");
 		chckbxForAuthor.setFont(new Font("Cambria", Font.PLAIN, 18));
 		chckbxForAuthor.setBounds(329, 170, 120, 33);
 		contentPane.add(chckbxForAuthor);
 		
-		JCheckBox chckbxForFiles = new JCheckBox("For Files");
+		JCheckBox chckbxForFiles = new JCheckBox("Files");
 		chckbxForFiles.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxForFiles.setToolTipText("Queries for files");
 		chckbxForFiles.setFont(new Font("Cambria", Font.PLAIN, 18));

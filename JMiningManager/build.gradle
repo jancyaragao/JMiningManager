@@ -12,13 +12,13 @@ repositories {
 
 dependencies {
 	// https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit
-	compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '4.9.0.201710071750-r'
+	compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '4.9.2.201712150930-r'
 	
 	// https://mvnrepository.com/artifact/org.tmatesoft.svnkit/svnkit
 	compile group: 'org.tmatesoft.svnkit', name: 'svnkit', version: '1.9.0'
 	
 	// https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
-	testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+	compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 	
 	// https://mvnrepository.com/artifact/com.toedter/jcalendar
 	compile group: 'com.toedter', name: 'jcalendar', version: '1.4'
