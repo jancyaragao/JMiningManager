@@ -1,13 +1,10 @@
 package jmm.model;
 
-import java.util.List;
-
 public class Author {
 
 	private String name;
 	private String email;
-
-	private List<Change> changes;
+	private int changes;
 
 	public String getName() {
 		return name;
@@ -25,11 +22,11 @@ public class Author {
 		this.email = email;
 	}
 
-	public List<Change> getChanges() {
+	public int getChanges() {
 		return changes;
 	}
 
-	public void setChanges(List<Change> changes) {
+	public void setChanges(int changes) {
 		this.changes = changes;
 	}
 

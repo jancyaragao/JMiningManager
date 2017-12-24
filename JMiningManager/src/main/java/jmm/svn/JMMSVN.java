@@ -63,7 +63,7 @@ public class JMMSVN implements JMMRepository {
 				SVNLogEntry r = (SVNLogEntry) elem;
 
 				Author a = new Author();
-				a.setChanges(null); // TODO: Vale a pena implementar isso agora?
+				a.setChanges(1);
 				a.setEmail(""); // TODO: Sem e-mail para SVN?
 				a.setName(r.getAuthor());
 
@@ -97,12 +97,12 @@ public class JMMSVN implements JMMRepository {
 
 	@Override
 	public Author authorFromCommit(String commit_code) {
-		List<Author> a = authorsBetweenCommits(commit_code, commit_code, false);
+		List<Author> a = authorsBetweenCommits(commit_code, commit_code);
 		return a.isEmpty() ? null : a.get(0);
 	}
 
 	@Override
-	public List<Author> authorsBetweenCommits(String initial_commit, String final_commit, boolean sorted) {
+	public List<Author> authorsBetweenCommits(String initial_commit, String final_commit) {
 		long initial_revision = Long.parseLong(initial_commit);
 		long final_revision = Long.parseLong(final_commit);
 
@@ -120,7 +120,7 @@ public class JMMSVN implements JMMRepository {
 				SVNLogEntry r = (SVNLogEntry) elem;
 
 				Author a = new Author();
-				a.setChanges(null); // TODO: Vale a pena implementar isso agora?
+				a.setChanges(1);
 				a.setEmail(""); // TODO: Sem e-mail para SVN?
 				a.setName(r.getAuthor());
 
@@ -132,7 +132,7 @@ public class JMMSVN implements JMMRepository {
 	}
 
 	@Override
-	public List<Author> authorsBetweenDates(Date initial_date, Date final_date, boolean sorted) {
+	public List<Author> authorsBetweenDates(Date initial_date, Date final_date) {
 		long initial_revision = 0;
 		long final_revision = 0;
 
@@ -143,7 +143,7 @@ public class JMMSVN implements JMMRepository {
 			e.printStackTrace();
 		}
 
-		return authorsBetweenCommits(String.valueOf(initial_revision), String.valueOf(final_revision), sorted);
+		return authorsBetweenCommits(String.valueOf(initial_revision), String.valueOf(final_revision));
 	}
 
 	@Override
@@ -205,11 +205,6 @@ public class JMMSVN implements JMMRepository {
 		}
 
 		return filesBetweenCommits(String.valueOf(initial_revision), String.valueOf(final_revision));
-	}
-
-	@Override
-	public List<ChangedFile> filterFilesByChangeType(List<ChangedFile> files, FileChangeType[] types) {
-		return null;
 	}
 
 	@Override

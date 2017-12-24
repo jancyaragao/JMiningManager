@@ -60,6 +60,7 @@ public class ResultScreen extends JFrame {
 		table.getTableHeader().setFont(f);
 		table.setRowHeight(30);
 		table.setEnabled(false);
+		//table.setAutoCreateRowSorter(true);
 		add(new JScrollPane(table));
 	}
 
@@ -81,6 +82,7 @@ public class ResultScreen extends JFrame {
 		table.getTableHeader().setFont(f);
 		table.setRowHeight(30);
 		table.setEnabled(false);
+		//table.setAutoCreateRowSorter(true);
 		add(new JScrollPane(table));
 	}
 
@@ -96,17 +98,18 @@ public class ResultScreen extends JFrame {
 		table.getTableHeader().setFont(f);
 		table.setRowHeight(30);
 		table.setEnabled(false);
+		//table.setAutoCreateRowSorter(true);
 		add(new JScrollPane(table));
 	}
 	
 	public void resultScreenListAuthor(List<Author> authors) {
-		String[] columns = new String[] { "Author Name", "Author E-mail" };
+		String[] columns = new String[] { "Author Name", "Author E-mail", "Number of Changes" };
 		
 		Object[][] rows = new Object[authors.size()][];
 		
 		for (int i = 0; i < rows.length; i++) {
 			Author a = authors.get(i);
-			rows[i] = new Object[]{ a.getName(), a.getEmail() };
+			rows[i] = new Object[]{ a.getName(), a.getEmail(), a.getChanges() };
 		}
 
 		Font f = new Font("Cambria", Font.PLAIN, 18);
@@ -116,6 +119,7 @@ public class ResultScreen extends JFrame {
 		table.getTableHeader().setFont(f);
 		table.setRowHeight(30);
 		table.setEnabled(false);
+		//table.setAutoCreateRowSorter(true);
 		add(new JScrollPane(table));
 	}
 	
@@ -136,6 +140,7 @@ public class ResultScreen extends JFrame {
 		table.getTableHeader().setFont(f);
 		table.setRowHeight(30);
 		table.setEnabled(false);
+		//table.setAutoCreateRowSorter(true);
 		add(new JScrollPane(table));
 	}
 

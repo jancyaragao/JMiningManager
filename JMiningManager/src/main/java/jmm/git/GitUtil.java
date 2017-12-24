@@ -94,7 +94,7 @@ public abstract class GitUtil {
 
 	protected static Author fromRevCommitToAuthor(RevCommit revision) {
 		Author a = new Author();
-		a.setChanges(null); // TODO: Vale a pena implementar isso agora?
+		a.setChanges(1);
 		a.setEmail(revision.getAuthorIdent().getEmailAddress());
 		a.setName(revision.getAuthorIdent().getName());
 
@@ -104,9 +104,8 @@ public abstract class GitUtil {
 	protected static List<Author> fromRevCommitToAuthor(Iterable<RevCommit> revisions) {
 		List<Author> authors = new ArrayList<Author>();
 
-		for (RevCommit rev : revisions) {
+		for (RevCommit rev : revisions)
 			authors.add(fromRevCommitToAuthor(rev));
-		}
 
 		return authors;
 

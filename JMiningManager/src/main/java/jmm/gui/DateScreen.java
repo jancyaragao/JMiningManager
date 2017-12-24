@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
 import jmm.common.JMMRepository;
+import jmm.common.JMMUtil;
 import jmm.model.Author;
 import jmm.model.Change;
 import jmm.model.ChangedFile;
@@ -154,9 +155,9 @@ public class DateScreen extends JFrame {
 						rs.setVisible(true);
 					} else if (chckbxForAuthor.isSelected()) {
 						List<Author> authors = repository.authorsBetweenDates(dateChooserInitial.getDate(),
-								dateChooserFinal.getDate(), false);
+								dateChooserFinal.getDate());
 						ResultScreen rs = new ResultScreen();
-						rs.resultScreenListAuthor(authors);
+						rs.resultScreenListAuthor(JMMUtil.groupByAuthor(authors));
 						rs.setVisible(true);
 					} else if (chckbxForFiles.isSelected()) {
 						List<ChangedFile> changedsFiles = repository.filesBetweenDates(dateChooserInitial.getDate(),

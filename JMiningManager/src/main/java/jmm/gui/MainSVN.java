@@ -12,7 +12,7 @@ import jmm.svn.JMMSVN;
 public class MainSVN {
 
 	public static void main(String[] args) {
-		testFilesFromCommit("http://argouml.tigris.org/svn/argouml", "guest", "");
+		testAuthorsBetweenCommits("http://argouml.tigris.org/svn/argouml", "guest", "");
 	}
 
 	public static void testFilesFromCommit(String url, String user, String pwd) {
@@ -47,7 +47,7 @@ public class MainSVN {
 	public static void testAuthorsBetweenCommits(String url, String user, String pwd) {
 		JMMRepository svn = new JMMSVN(url, user, pwd);
 
-		for (Author a : svn.authorsBetweenCommits("1000", "1050", false))
+		for (Author a : svn.authorsBetweenCommits("1000", "1050"))
 			System.out.println(a);
 	}
 
@@ -57,7 +57,7 @@ public class MainSVN {
 		Date initial_date = DateUtil.stringToDate("12/11/2001");
 		Date final_date = DateUtil.stringToDate("21/11/2001");
 
-		for (Author a : svn.authorsBetweenDates(initial_date, final_date, false))
+		for (Author a : svn.authorsBetweenDates(initial_date, final_date))
 			System.out.println(a);
 	}
 

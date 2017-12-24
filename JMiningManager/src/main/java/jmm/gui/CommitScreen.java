@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import jmm.common.JMMRepository;
+import jmm.common.JMMUtil;
 import jmm.model.Author;
 import jmm.model.Change;
 import jmm.model.ChangedFile;
@@ -170,9 +171,9 @@ public class CommitScreen extends JFrame {
 							rs.resultScreenAuthor(a);
 							rs.setVisible(true);
 						}  else {
-							List<Author> authors = repository.authorsBetweenCommits(textFieldInitial.getText(), textFieldFinal.getText(), false);
+							List<Author> authors = repository.authorsBetweenCommits(textFieldInitial.getText(), textFieldFinal.getText());
 							ResultScreen rs = new ResultScreen();
-							rs.resultScreenListAuthor(authors);
+							rs.resultScreenListAuthor(JMMUtil.groupByAuthor(authors));
 							rs.setVisible(true);
 						} 
 						

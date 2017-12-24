@@ -19,7 +19,6 @@ import jmm.common.JMMRepository;
 import jmm.model.Author;
 import jmm.model.Change;
 import jmm.model.ChangedFile;
-import jmm.model.FileChangeType;
 
 public class JMMGit implements JMMRepository {
 
@@ -168,7 +167,7 @@ public class JMMGit implements JMMRepository {
 	}
 
 	@Override
-	public List<Author> authorsBetweenCommits(String initial_commit, String final_commit, boolean sorted) {
+	public List<Author> authorsBetweenCommits(String initial_commit, String final_commit) {
 		Repository rep = git.getRepository();
 		Iterable<RevCommit> revisions = null;
 
@@ -184,7 +183,7 @@ public class JMMGit implements JMMRepository {
 	}
 
 	@Override
-	public List<Author> authorsBetweenDates(Date initial_date, Date final_date, boolean sorted) {
+	public List<Author> authorsBetweenDates(Date initial_date, Date final_date) {
 		RevFilter filter = CommitTimeRevFilter.between(initial_date, final_date);
 
 		Iterable<RevCommit> revisions = null;
@@ -196,11 +195,6 @@ public class JMMGit implements JMMRepository {
 		}
 
 		return GitUtil.fromRevCommitToAuthor(revisions);
-	}
-
-	@Override
-	public List<ChangedFile> filterFilesByChangeType(List<ChangedFile> files, FileChangeType[] types) {
-		return null;
 	}
 
 	@Override
