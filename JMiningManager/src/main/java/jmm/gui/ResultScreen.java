@@ -49,9 +49,9 @@ public class ResultScreen extends JFrame {
 	}
 
 	public void resultScreenChange(Change c) {
-		String[] columns = new String[] { "Commit Date", "Commit Code", "Author Name", "Author E-mail" };
+		String[] columns = new String[] { "Commit Code", "Commit Date", "Author Name", "Author E-mail" };
 
-		Object[][] rows = new Object[][] { { DateUtil.dateToString(c.getDate()), c.getCommit(), c.getAuthor().getName(), c.getAuthor().getEmail() } };
+		Object[][] rows = new Object[][] { { c.getCommit(), DateUtil.dateToString(c.getDate()), c.getAuthor().getName(), c.getAuthor().getEmail() } };
 
 		Font f = new Font("Cambria", Font.PLAIN, 18);
 
@@ -66,13 +66,13 @@ public class ResultScreen extends JFrame {
 
 	public void resultScreenListChange(List<Change> changes) {
 
-		String[] columns = new String[] { "Commit Date", "Commit Code", "Author Name", "Author E-mail" };
+		String[] columns = new String[] { "Commit Code", "Commit Date", "Author Name", "Author E-mail" };
 
 		Object[][] rows = new Object[changes.size()][];
 
 		for (int i = 0; i < rows.length; i++) {
 			Change c = changes.get(i);
-			rows[i] = new Object[] { DateUtil.dateToString(c.getDate()), c.getCommit(), c.getAuthor().getName(), c.getAuthor().getEmail() };
+			rows[i] = new Object[] { c.getCommit(), DateUtil.dateToString(c.getDate()), c.getAuthor().getName(), c.getAuthor().getEmail() };
 		}
 
 		Font f = new Font("Cambria", Font.PLAIN, 18);
