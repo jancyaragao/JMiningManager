@@ -15,7 +15,7 @@ public class MainGit {
 	}
 
 	public static void testFilesFromCommit() {
-		JMMRepository git = new JMMGit("C:/Users/felipe/git/wicket", "", "");
+		JMMRepository git = new JMMGit("C:/Users/jancy/git/wicket", "", "");
 
 		List<ChangedFile> files = git.filesFromCommit("7729e4d469ff728a66dfec3818e584a504b9753c");
 

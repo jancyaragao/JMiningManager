@@ -80,7 +80,7 @@ public class DateScreen extends JFrame {
 		dateChooserInitial.setBounds(164, 56, 135, 33);
 		contentPane.add(dateChooserInitial);
 
-		JLabel lblFinal = new JLabel("Final Date:");
+		JLabel lblFinal = new JLabel("Final Date:*");
 		lblFinal.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFinal.setFont(new Font("Cambria", Font.PLAIN, 18));
 		lblFinal.setBounds(344, 56, 96, 33);
@@ -142,8 +142,8 @@ public class DateScreen extends JFrame {
 		btnSearch.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				if (dateChooserInitial.getDate() == null) {
-					JOptionPane.showMessageDialog(null, "Report the initial commit", "Attention",
+				if (dateChooserInitial.getDate() == null || dateChooserFinal.getDate() == null) {
+					JOptionPane.showMessageDialog(null, "Report the all dates", "Attention",
 							JOptionPane.WARNING_MESSAGE);
 				} else {
 
