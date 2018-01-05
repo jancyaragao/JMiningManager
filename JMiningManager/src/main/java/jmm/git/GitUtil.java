@@ -39,6 +39,7 @@ public abstract class GitUtil {
 		c.setCommit(revision.getName());
 		c.setDate(revision.getAuthorIdent().getWhen());
 		c.setFiles(null); // TODO: Vale a pena implementar agora?
+		c.setMessage(revision.getFullMessage());
 
 		return c;
 	}

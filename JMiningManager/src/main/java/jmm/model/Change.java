@@ -8,6 +8,7 @@ public class Change {
 	private String commit;
 	private Author author;
 	private Date date;
+	private String message;
 
 	private List<ChangedFile> files;
 
@@ -43,9 +44,18 @@ public class Change {
 		this.files = files;
 	}
 
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 	@Override
 	public String toString() {
-		return "Change [commit=" + commit + ", author=" + author + ", date=" + date + ", files=" + files + "]";
+		return "Change [commit=" + commit + ", author=" + author + ", date=" + date + ", message=" + message
+				+ ", files=" + files + "]";
 	}
 
 }

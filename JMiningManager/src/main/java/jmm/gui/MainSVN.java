@@ -12,7 +12,7 @@ import jmm.svn.JMMSVN;
 public class MainSVN {
 
 	public static void main(String[] args) {
-		testAuthorsBetweenCommits("http://argouml.tigris.org/svn/argouml", "guest", "");
+		testChangesBetweenCommits("http://argouml.tigris.org/svn/argouml", "guest", "");
 	}
 
 	public static void testFilesFromCommit(String url, String user, String pwd) {

@@ -72,6 +72,7 @@ public class JMMSVN implements JMMRepository {
 				c.setCommit(String.valueOf(r.getRevision()));
 				c.setDate(r.getDate());
 				c.setFiles(null); // TODO: Vale a pena implementar isso agora?
+				c.setMessage(r.getMessage());
 
 				changes.add(c);
 			}
