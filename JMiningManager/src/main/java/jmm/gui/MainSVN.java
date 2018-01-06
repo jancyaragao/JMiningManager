@@ -13,6 +13,31 @@ public class MainSVN {
 
 	public static void main(String[] args) {
 		testChangesBetweenCommits("http://argouml.tigris.org/svn/argouml", "guest", "");
+		// testTCCExample();
+	}
+
+	public static void testTCCExample() {
+		String url = "http://argouml.tigris.org/svn/argouml";
+		String user = "guest";
+		String pwd = "";
+
+		JMMRepository svn = new JMMSVN(url, user, pwd);
+
+		Date initial_date = DateUtil.stringToDate("12/11/2001");
+		Date final_date = DateUtil.stringToDate("21/11/2001");
+
+		for (Change c : svn.changesBetweenDates(initial_date, final_date))
+			System.out.println(c);
+
+		System.out.println("----------------------------");
+
+		for (Author a : svn.authorsBetweenDates(initial_date, final_date))
+			System.out.println(a);
+
+		System.out.println("----------------------------");
+
+		for (ChangedFile cf : svn.filesFromCommit("2001"))
+			System.out.println(cf);
 	}
 
 	public static void testFilesFromCommit(String url, String user, String pwd) {
