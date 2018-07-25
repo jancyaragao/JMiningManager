@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -163,7 +164,7 @@ public class FirstScreen extends JFrame {
 		lblPassword.setBounds(118, 213, 100, 35);
 		contentPane.add(lblPassword);
 		
-		textFieldPassword = new JTextField();
+		textFieldPassword = new JPasswordField();
 		textFieldPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		textFieldPassword.setToolTipText("Report the repository password");
 		textFieldPassword.setFont(new Font("Cambria", Font.PLAIN, 14));
